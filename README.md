@@ -2,6 +2,8 @@
 
 Android 图片选择器。支持图库多选/单选/图片裁剪/拍照/自定义图片加载库
 
+<img src="https://github.com/smuyyh/ImageSelector/blob/master/screenshot/screen.png?raw=true" width=200/>
+
 ## 使用
 
 #### 配置权限
