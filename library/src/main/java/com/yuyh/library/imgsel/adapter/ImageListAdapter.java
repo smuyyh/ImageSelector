@@ -13,7 +13,6 @@ import com.yuyh.library.imgsel.ImgSelConfig;
 import com.yuyh.library.imgsel.R;
 import com.yuyh.library.imgsel.bean.Image;
 import com.yuyh.library.imgsel.common.OnItemClickListener;
-import com.yuyh.library.imgsel.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,22 +40,24 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
 
     @Override
     protected void onBindData(EasyRVHolder viewHolder, final int position, final Image item) {
+
+        viewHolder.getItemView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null)
+                    listener.onClick(position, item);
+            }
+        });
+
         if (position == 0 && showCamera) {
             ImageView iv = viewHolder.getView(R.id.ivTakePhoto);
             iv.setImageResource(R.drawable.ic_take_photo);
             return;
         }
+
         final ImageView iv = viewHolder.getView(R.id.ivImage);
         config.loader.displayImage(context, item.path, iv);
 
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogUtils.e("------" + position);
-                if (listener != null)
-                    listener.onClick(position, item);
-            }
-        });
         iv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {

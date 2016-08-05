@@ -1,6 +1,7 @@
 package com.yuyh.library.imgsel;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -59,15 +60,13 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
     private boolean hasFolderGened = false;
     private static final int LOADER_ALL = 0;
     private static final int LOADER_CATEGORY = 1;
-    private static final int REQUEST_CAMERA = 100;
+    private static final int REQUEST_CAMERA = -1;
 
     private File tempFile;
 
-    public static ImgSelFragment instance(ImgSelConfig config, Callback callback) {
+    public static ImgSelFragment instance(ImgSelConfig config) {
         ImgSelFragment fragment = new ImgSelFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("config", config);
-        bundle.putSerializable("callback", callback);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -86,8 +85,12 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        config = (ImgSelConfig) getArguments().getSerializable("config");
-        callback = (Callback) getArguments().getSerializable("callback");
+        config = Constant.config;
+        try {
+            callback = (Callback) getActivity();
+        } catch (Exception e) {
+
+        }
 
         rvImageList.setLayoutManager(new GridLayoutManager(rvImageList.getContext(), 3));
         rvImageList.addItemDecoration(new DividerGridItemDecoration(rvImageList.getContext()));
@@ -281,5 +284,23 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
         } else {
             Toast.makeText(getActivity(), "打开相机失败", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CAMERA) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (tempFile != null) {
+                    if (callback != null) {
+                        callback.onCameraShot(tempFile);
+                    }
+                }
+            } else {
+                if (tempFile != null && tempFile.exists()) {
+                    tempFile.delete();
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

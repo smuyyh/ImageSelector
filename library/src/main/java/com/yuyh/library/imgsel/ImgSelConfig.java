@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author yuyh.
  * @date 2016/8/5.
  */
-public class ImgSelConfig implements Serializable{
+public class ImgSelConfig {
 
     /**
      * 是否需要裁剪
@@ -68,18 +68,30 @@ public class ImgSelConfig implements Serializable{
      */
     public ImageLoader loader;
 
+    /**
+     * 裁剪输出大小
+     */
+    public int aspectX = 1;
+    public int aspectY = 1;
+    public int outputX = 500;
+    public int outputY = 500;
+
     public ImgSelConfig(Builder builder) {
-        needCrop = builder.needCrop;
-        mutiSelect = builder.mutiSelect;
-        maxNum = builder.maxNum;
-        needCamera = builder.needCamera;
-        title = builder.title;
-        titleBgColor = builder.titleBgColor;
-        titleColor = builder.titleColor;
-        btnBgColor = builder.btnBgColor;
-        btnTextColor = builder.btnTextColor;
-        filePath = builder.filePath;
-        loader = builder.loader;
+        this.needCrop = builder.needCrop;
+        this.mutiSelect = builder.mutiSelect;
+        this.maxNum = builder.maxNum;
+        this.needCamera = builder.needCamera;
+        this.title = builder.title;
+        this.titleBgColor = builder.titleBgColor;
+        this.titleColor = builder.titleColor;
+        this.btnBgColor = builder.btnBgColor;
+        this.btnTextColor = builder.btnTextColor;
+        this.filePath = builder.filePath;
+        this.loader = builder.loader;
+        this.aspectX = builder.aspectX;
+        this.aspectY = builder.aspectY;
+        this.outputX = builder.outputX;
+        this.outputY = builder.outputY;
     }
 
     public static class Builder implements Serializable {
@@ -95,6 +107,11 @@ public class ImgSelConfig implements Serializable{
         private int btnBgColor;
         private String filePath;
         private ImageLoader loader;
+
+        private int aspectX = 1;
+        private int aspectY = 1;
+        private int outputX = 400;
+        private int outputY = 400;
 
         public Builder(ImageLoader loader) {
             this.loader = loader;
@@ -160,6 +177,14 @@ public class ImgSelConfig implements Serializable{
 
         private Builder filePath(String filePath) {
             this.filePath = filePath;
+            return this;
+        }
+
+        private Builder cropSize(int aspectX, int aspectY, int outputX, int outputY) {
+            this.aspectX = aspectX;
+            this.aspectY = aspectY;
+            this.outputX = outputX;
+            this.outputY = outputY;
             return this;
         }
 
