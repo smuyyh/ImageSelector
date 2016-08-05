@@ -63,14 +63,14 @@ public class MainActivity extends AppCompatActivity {
         ImgSelActivity.startActivity(this, config, REQUEST_CODE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            List<String> pathList = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
-            for (String path : pathList) {
-                tvResult.append(path + "\n");
-            }
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+        List<String> pathList = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
+        for (String path : pathList) {
+            tvResult.append(path + "\n");
         }
     }
+}
 }
