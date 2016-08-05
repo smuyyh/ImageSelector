@@ -21,7 +21,7 @@ public class ImgSelConfig {
     /**
      * 是否多选
      */
-    public boolean mutiSelect;
+    public boolean multiSelect;
 
     /**
      * 最多选择图片数
@@ -78,7 +78,7 @@ public class ImgSelConfig {
 
     public ImgSelConfig(Builder builder) {
         this.needCrop = builder.needCrop;
-        this.mutiSelect = builder.mutiSelect;
+        this.multiSelect = builder.multiSelect;
         this.maxNum = builder.maxNum;
         this.needCamera = builder.needCamera;
         this.title = builder.title;
@@ -97,7 +97,7 @@ public class ImgSelConfig {
     public static class Builder implements Serializable {
 
         private boolean needCrop = false;
-        private boolean mutiSelect = true;
+        private boolean multiSelect = true;
         private int maxNum = 9;
         private boolean needCamera = true;
         private String title = "图片";
@@ -135,8 +135,8 @@ public class ImgSelConfig {
             return this;
         }
 
-        public Builder mutiSelect(boolean mutiSelect) {
-            this.mutiSelect = mutiSelect;
+        public Builder multiSelect(boolean multiSelect) {
+            this.multiSelect = multiSelect;
             return this;
         }
 
@@ -150,7 +150,7 @@ public class ImgSelConfig {
             return this;
         }
 
-        private Builder title(String title) {
+        public Builder title(String title) {
             this.title = title;
             return this;
         }
@@ -180,7 +180,7 @@ public class ImgSelConfig {
             return this;
         }
 
-        private Builder cropSize(int aspectX, int aspectY, int outputX, int outputY) {
+        public Builder cropSize(int aspectX, int aspectY, int outputX, int outputY) {
             this.aspectX = aspectX;
             this.aspectY = aspectY;
             this.outputX = outputX;

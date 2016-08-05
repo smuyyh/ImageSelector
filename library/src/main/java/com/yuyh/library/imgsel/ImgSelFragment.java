@@ -60,7 +60,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
     private boolean hasFolderGened = false;
     private static final int LOADER_ALL = 0;
     private static final int LOADER_CATEGORY = 1;
-    private static final int REQUEST_CAMERA = -1;
+    private static final int REQUEST_CAMERA = 5;
 
     private File tempFile;
 
@@ -99,7 +99,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
 
         imageListAdapter = new ImageListAdapter(getActivity(), imageList, config);
         imageListAdapter.setShowCamera(config.needCamera);
-        imageListAdapter.setMutiSelect(config.mutiSelect);
+        imageListAdapter.setMutiSelect(config.multiSelect);
         rvImageList.setAdapter(imageListAdapter);
         imageListAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -108,7 +108,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
                     showCameraAction();
                 } else {
                     if (image != null) {
-                        if (config.mutiSelect) {
+                        if (config.multiSelect) {
                             if (Constant.imageList.contains(image.path)) {
                                 Constant.imageList.remove(image.path);
                                 if (callback != null) {
@@ -279,6 +279,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
         if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             tempFile = new File(FileUtils.createRootPath(getActivity()) + "/" + System.currentTimeMillis() + ".jpg");
             LogUtils.e(tempFile.getAbsolutePath());
+            FileUtils.createFile(tempFile);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
             startActivityForResult(cameraIntent, REQUEST_CAMERA);
         } else {

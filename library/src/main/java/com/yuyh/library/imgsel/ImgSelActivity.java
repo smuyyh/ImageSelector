@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.yuyh.library.imgsel.common.Callback;
 import com.yuyh.library.imgsel.common.Constant;
 import com.yuyh.library.imgsel.utils.FileUtils;
+import com.yuyh.library.imgsel.utils.LogUtils;
 
 import java.io.File;
 import java.util.ArrayList;
