@@ -10,11 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yuyh.library.imgsel.common.Callback;
 import com.yuyh.library.imgsel.common.Constant;
 import com.yuyh.library.imgsel.utils.FileUtils;
-import com.yuyh.library.imgsel.utils.LogUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,6 +50,9 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
                 .commit();
 
         initView();
+        if (!FileUtils.isSdCardAvailable()) {
+            Toast.makeText(this, "SD卡不可用", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initView() {
@@ -79,8 +82,12 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
 
     @Override
     public void onSingleImageSelected(String path) {
-        Constant.imageList.add(path);
-        exit();
+        if (config.needCrop) {
+            crop(path);
+        } else {
+            Constant.imageList.add(path);
+            exit();
+        }
     }
 
     @Override
@@ -131,7 +138,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void exit(){
+    public void exit() {
         Intent intent = new Intent();
         result.clear();
         result.addAll(Constant.imageList);
