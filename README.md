@@ -23,6 +23,14 @@ dependencies {
 #### 使用
 
 ```java
+// 自定义图片加载器
+private ImageLoader loader = new ImageLoader() {
+    @Override
+    public void displayImage(Context context, String path, ImageView imageView) {
+        Glide.with(context).load(path).into(imageView);
+    }
+};
+// 配置选项
 ImgSelConfig config = new ImgSelConfig.Builder(loader)
         // 是否多选
         .multiSelect(false)
