@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
     private RelativeLayout rlTitleBar;
     private TextView tvTitle;
     private Button btnConfirm;
+    private ImageView ivBack;
     private String cropImagePath;
 
     private ArrayList<String> result = new ArrayList<>();
@@ -60,6 +62,8 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         btnConfirm = (Button) findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(this);
+        ivBack = (ImageView) findViewById(R.id.ivBack);
+        ivBack.setOnClickListener(this);
 
         if (config != null) {
             rlTitleBar.setBackgroundColor(config.titleBgColor);
@@ -77,6 +81,8 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
             if (Constant.imageList != null && !Constant.imageList.isEmpty()) {
                 exit();
             }
+        } else if (id == R.id.ivBack) {
+            finish();
         }
     }
 

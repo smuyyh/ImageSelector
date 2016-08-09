@@ -7,7 +7,7 @@ Android 图片选择器。支持图库多选/单选/图片裁剪/拍照/自定�
 ## 依赖
 ```
 dependencies {
-    compile 'com.yuyh.imgsel:library:1.0.2'
+    compile 'com.yuyh.imgsel:library:1.0.3'
 }
 ```
 
