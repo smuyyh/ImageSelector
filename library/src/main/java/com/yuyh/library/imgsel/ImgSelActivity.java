@@ -43,7 +43,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_img_sel);
-
+        Constant.imageList.clear();
         config = Constant.config;
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fmImageList, ImgSelFragment.instance(config), null)
