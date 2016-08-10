@@ -7,9 +7,13 @@ Android 图片选择器。支持图库多选/单选/图片裁剪/拍照/自定�
 ## 依赖
 ```
 dependencies {
-    compile 'com.yuyh.imgsel:library:1.0.3'
+    compile 'com.yuyh.imgsel:library:1.1.0'
 }
 ```
+
+## 版本
+
+V1.1.0 增加自定义返回按钮图标及配置沉浸式状态栏选项
 
 ## 使用
 
@@ -31,7 +35,7 @@ private ImageLoader loader = new ImageLoader() {
         Glide.with(context).load(path).into(imageView);
     }
 };
-// 配置选项
+// 自由配置选项
 ImgSelConfig config = new ImgSelConfig.Builder(loader)
         // 是否多选
         .multiSelect(false)
@@ -39,6 +43,10 @@ ImgSelConfig config = new ImgSelConfig.Builder(loader)
         .btnBgColor(Color.GRAY)
         // “确定”按钮文字颜色
         .btnTextColor(Color.BLUE)
+        // 使用沉浸式状态栏
+        .statusBarColor(Color.parseColor("#3F51B5"))
+        // 返回图标ResId
+        .backResId(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_mtrl_am_alpha)
         // 标题
         .title("图片")
         // 标题文字颜色

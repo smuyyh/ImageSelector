@@ -3,10 +3,12 @@ package com.yuyh.library.imgsel;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.yuyh.library.imgsel.common.Callback;
 import com.yuyh.library.imgsel.common.Constant;
 import com.yuyh.library.imgsel.utils.FileUtils;
+import com.yuyh.library.imgsel.utils.StatusBarCompat;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,6 +69,18 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         ivBack.setOnClickListener(this);
 
         if (config != null) {
+            if(config.backResId != -1){
+                ivBack.setImageResource(config.backResId);
+            }
+
+            if(config.statusBarColor != -1){
+                StatusBarCompat.compat(this, config.statusBarColor);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                        && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                    //透明状态栏
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                }
+            }
             rlTitleBar.setBackgroundColor(config.titleBgColor);
             tvTitle.setTextColor(config.titleColor);
             tvTitle.setText(config.title);

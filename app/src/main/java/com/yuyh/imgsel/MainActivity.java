@@ -52,13 +52,17 @@ public class MainActivity extends AppCompatActivity {
                 .btnBgColor(Color.GRAY)
                 // 确定按钮文字颜色
                 .btnTextColor(Color.BLUE)
+                // 使用沉浸式状态栏
+                .statusBarColor(Color.parseColor("#3F51B5"))
+                // 返回图标ResId
+                .backResId(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_mtrl_am_alpha)
                 .title("图片")
                 .titleColor(Color.WHITE)
                 .titleBgColor(Color.parseColor("#3F51B5"))
                 .cropSize(1, 1, 200, 200)
                 .needCrop(true)
                 // 第一个是否显示相机
-                .needCamera(false)
+                .needCamera(true)
                 // 最大选择图片数量
                 .maxNum(9)
                 .build();

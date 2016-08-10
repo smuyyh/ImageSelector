@@ -33,6 +33,13 @@ public class ImgSelConfig {
      */
     public boolean needCamera;
 
+    public int statusBarColor = -1;
+
+    /**
+     * 返回图标资源
+     */
+    public int backResId = -1;
+
     /**
      * 标题
      */
@@ -81,6 +88,8 @@ public class ImgSelConfig {
         this.multiSelect = builder.multiSelect;
         this.maxNum = builder.maxNum;
         this.needCamera = builder.needCamera;
+        this.statusBarColor = builder.statusBarColor;
+        this.backResId = builder.backResId;
         this.title = builder.title;
         this.titleBgColor = builder.titleBgColor;
         this.titleColor = builder.titleColor;
@@ -100,6 +109,8 @@ public class ImgSelConfig {
         private boolean multiSelect = true;
         private int maxNum = 9;
         private boolean needCamera = true;
+        public int statusBarColor = -1;
+        private int backResId = -1;
         private String title = "图片";
         private int titleColor;
         private int titleBgColor;
@@ -147,6 +158,16 @@ public class ImgSelConfig {
 
         public Builder needCamera(boolean needCamera) {
             this.needCamera = needCamera;
+            return this;
+        }
+
+        public Builder statusBarColor(int statusBarColor){
+            this.statusBarColor = statusBarColor;
+            return this;
+        }
+
+        public Builder backResId(int backResId){
+            this.backResId = backResId;
             return this;
         }
 
