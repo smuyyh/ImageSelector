@@ -1,12 +1,17 @@
 package com.yuyh.library.imgsel;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -27,6 +32,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
 
     public static final String INTENT_RESULT = "result";
     private static final int IMAGE_CROP_CODE = 1;
+    private static final int STORAGE_REQUEST_CODE = 1;
 
     private ImgSelConfig config;
 
@@ -50,9 +56,17 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         setContentView(R.layout.activity_img_sel);
         Constant.imageList.clear();
         config = Constant.config;
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fmImageList, ImgSelFragment.instance(config), null)
-                .commit();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    STORAGE_REQUEST_CODE);
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fmImageList, ImgSelFragment.instance(config), null)
+                    .commit();
+        }
 
         initView();
         if (!FileUtils.isSdCardAvailable()) {
@@ -69,14 +83,14 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         ivBack.setOnClickListener(this);
 
         if (config != null) {
-            if(config.backResId != -1){
+            if (config.backResId != -1) {
                 ivBack.setImageResource(config.backResId);
             }
 
-            if(config.statusBarColor != -1){
+            if (config.statusBarColor != -1) {
                 StatusBarCompat.compat(this, config.statusBarColor);
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-                        && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                        && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                     //透明状态栏
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 }
@@ -167,5 +181,22 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         setResult(RESULT_OK, intent);
         Constant.imageList.clear();
         finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case STORAGE_REQUEST_CODE:
+                if(grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.fmImageList, ImgSelFragment.instance(config), null)
+                            .commitAllowingStateLoss();
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:break;
+        }
     }
 }
