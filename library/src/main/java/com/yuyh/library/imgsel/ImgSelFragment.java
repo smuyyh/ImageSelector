@@ -275,6 +275,10 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showCameraAction() {
+        if (config.maxNum <= Constant.imageList.size()) {
+            Toast.makeText(getActivity(), "最多选择" + config.maxNum + "张图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             tempFile = new File(FileUtils.createRootPath(getActivity()) + "/" + System.currentTimeMillis() + ".jpg");
