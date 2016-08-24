@@ -179,7 +179,6 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
                         Image image = new Image(path, name, dateTime);
                         if (!image.path.endsWith("gif"))
                             tempImageList.add(image);
-                        LogUtils.i("----------------" + path);
                         if (!hasFolderGened) {
                             File imageFile = new File(path);
                             File folderFile = imageFile.getParentFile();

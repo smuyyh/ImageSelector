@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 .titleColor(Color.WHITE)
                 .titleBgColor(Color.parseColor("#3F51B5"))
                 .cropSize(1, 1, 200, 200)
-                .needCrop(true)
+                .needCrop(false)
                 // 第一个是否显示相机
                 .needCamera(true)
                 // 最大选择图片数量
