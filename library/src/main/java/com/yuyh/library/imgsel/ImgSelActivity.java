@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -48,6 +49,12 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         Intent intent = new Intent(activity, ImgSelActivity.class);
         Constant.config = config;
         activity.startActivityForResult(intent, RequestCode);
+    }
+
+    public static void startActivity(Fragment fragment, ImgSelConfig config, int RequestCode){
+        Intent intent = new Intent(fragment.getActivity(), ImgSelActivity.class);
+        Constant.config = config;
+        fragment.startActivityForResult(intent, RequestCode);
     }
 
     @Override
