@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.yuyh.library.imgsel.ImageLoader;
 import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
@@ -20,13 +22,17 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0;
     private TextView tvResult;
+    private SimpleDraweeView draweeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_main);
 
+
         tvResult = (TextView) findViewById(R.id.tvResult);
+        draweeView = (SimpleDraweeView) findViewById(R.id.my_image_view);
     }
 
     private ImageLoader loader = new ImageLoader() {
@@ -75,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             List<String> pathList = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
+
+            // 测试Fresco。可不理会
+            // draweeView.setImageURI(Uri.parse("file://"+pathList.get(0)));
             for (String path : pathList) {
                 tvResult.append(path + "\n");
             }
