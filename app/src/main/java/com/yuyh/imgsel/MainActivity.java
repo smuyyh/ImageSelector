@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void Multiselect(View view) {
         tvResult.setText("");
-        ImgSelConfig config = new ImgSelConfig.Builder(loader).multiSelect(true).build();
+        ImgSelConfig config = new ImgSelConfig.Builder(loader).multiSelect(true)
+                // 使用沉浸式状态栏
+                .statusBarColor(Color.parseColor("#3F51B5")).build();
 
         ImgSelActivity.startActivity(this, config, REQUEST_CODE);
     }
