@@ -103,7 +103,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
         rvImageList.setAdapter(imageListAdapter);
         imageListAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onClick(int position, Image image) {
+            public int onClick(int position, Image image) {
                 if (config.needCamera && position == 0) {
                     showCameraAction();
                 } else {
@@ -117,7 +117,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
                             } else {
                                 if (config.maxNum <= Constant.imageList.size()) {
                                     Toast.makeText(getActivity(), "最多选择" + config.maxNum + "张图片", Toast.LENGTH_SHORT).show();
-                                    return;
+                                    return 0;
                                 }
 
                                 Constant.imageList.add(image.path);
@@ -126,6 +126,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
                                 }
                             }
                             imageListAdapter.select(image);
+                            return 1;
                         } else {
                             if (callback != null) {
                                 callback.onSingleImageSelected(image.path);
@@ -133,6 +134,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
                         }
                     }
                 }
+                return 0;
             }
         });
 

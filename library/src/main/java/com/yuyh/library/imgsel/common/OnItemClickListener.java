@@ -8,5 +8,5 @@ import com.yuyh.library.imgsel.bean.Image;
  */
 public interface OnItemClickListener {
 
-    void onClick(int position, Image image);
+    int onClick(int position, Image image);
 }

@@ -1,11 +1,8 @@
 package com.yuyh.library.imgsel.adapter;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.yuyh.easyadapter.recyclerview.EasyRVAdapter;
 import com.yuyh.easyadapter.recyclerview.EasyRVHolder;
@@ -39,13 +36,21 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
     }
 
     @Override
-    protected void onBindData(EasyRVHolder viewHolder, final int position, final Image item) {
+    protected void onBindData(final EasyRVHolder viewHolder, final int position, final Image item) {
 
         viewHolder.getItemView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null)
-                    listener.onClick(position, item);
+                if (listener != null) {
+                    int ret = listener.onClick(position, item);
+                    if (ret == 1 && mutiSelect) { // 局部刷新
+                        if (selectedImageList.contains(item)) {
+                            viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_checked);
+                        } else {
+                            viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_uncheck);
+                        }
+                    }
+                }
             }
         });
 
@@ -57,22 +62,6 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
 
         final ImageView iv = viewHolder.getView(R.id.ivImage);
         config.loader.displayImage(context, item.path, iv);
-
-        iv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    iv.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                } else {
-                    iv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
-
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) iv.getLayoutParams();
-                params.height = params.width;
-                iv.setLayoutParams(params);
-                iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            }
-        });
 
         if (mutiSelect) {
             viewHolder.setVisible(R.id.ivPhotoCheaked, true);
@@ -113,6 +102,5 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
         } else {
             selectedImageList.add(image);
         }
-        notifyDataSetChanged();
     }
 }
