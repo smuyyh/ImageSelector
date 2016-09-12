@@ -116,7 +116,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
                                 }
                             } else {
                                 if (config.maxNum <= Constant.imageList.size()) {
-                                    Toast.makeText(getActivity(), "最多选择" + config.maxNum + "张图片", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), String.format(getString(R.string.maxnum), config.maxNum), Toast.LENGTH_SHORT).show();
                                     return 0;
                                 }
 
@@ -241,7 +241,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
                 folderPopupWindow.dismiss();
                 if (position == 0) {
                     getActivity().getSupportLoaderManager().restartLoader(LOADER_ALL, null, mLoaderCallback);
-                    btnAlbumSelected.setText("所有图片");
+                    btnAlbumSelected.setText(getString(R.string.all_images));
                 } else {
                     imageList.clear();
                     if (config.needCamera)
@@ -277,7 +277,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
 
     private void showCameraAction() {
         if (config.maxNum <= Constant.imageList.size()) {
-            Toast.makeText(getActivity(), "最多选择" + config.maxNum + "张图片", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), String.format(getString(R.string.maxnum), config.maxNum), Toast.LENGTH_SHORT).show();
             return;
         }
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -288,7 +288,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
             startActivityForResult(cameraIntent, REQUEST_CAMERA);
         } else {
-            Toast.makeText(getActivity(), "打开相机失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.open_camera_failure), Toast.LENGTH_SHORT).show();
         }
     }
 

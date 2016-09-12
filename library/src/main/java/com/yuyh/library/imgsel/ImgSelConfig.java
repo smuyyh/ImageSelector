@@ -111,7 +111,7 @@ public class ImgSelConfig {
         private boolean needCamera = true;
         public int statusBarColor = -1;
         private int backResId = -1;
-        private String title = "图片";
+        private String title;
         private int titleColor;
         private int titleBgColor;
         private int btnTextColor;
@@ -132,6 +132,7 @@ public class ImgSelConfig {
             else
                 filePath = Environment.getRootDirectory().getAbsolutePath() + "/Camera";
 
+            title = "图片";
             titleBgColor = Color.parseColor("#3F51B5");
             titleColor = Color.WHITE;
 
@@ -161,12 +162,12 @@ public class ImgSelConfig {
             return this;
         }
 
-        public Builder statusBarColor(int statusBarColor){
+        public Builder statusBarColor(int statusBarColor) {
             this.statusBarColor = statusBarColor;
             return this;
         }
 
-        public Builder backResId(int backResId){
+        public Builder backResId(int backResId) {
             this.backResId = backResId;
             return this;
         }

@@ -64,9 +64,9 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         Constant.imageList.clear();
         config = Constant.config;
 
+        // Android 6.0 checkSelfPermission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            //申请权限
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     STORAGE_REQUEST_CODE);
         } else {
@@ -77,15 +77,17 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
 
         initView();
         if (!FileUtils.isSdCardAvailable()) {
-            Toast.makeText(this, "SD卡不可用", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sd_disable), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void initView() {
         rlTitleBar = (RelativeLayout) findViewById(R.id.rlTitleBar);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
+
         btnConfirm = (Button) findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(this);
+
         ivBack = (ImageView) findViewById(R.id.ivBack);
         ivBack.setOnClickListener(this);
 
@@ -98,7 +100,6 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
                 StatusBarCompat.compat(this, config.statusBarColor);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                         && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    //透明状态栏
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 }
             }
@@ -107,6 +108,11 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
             tvTitle.setText(config.title);
             btnConfirm.setBackgroundColor(config.btnBgColor);
             btnConfirm.setTextColor(config.btnTextColor);
+            if(config.multiSelect){
+                btnConfirm.setText(String.format(getString(R.string.confirm), Constant.imageList.size(), config.maxNum));
+            } else {
+                btnConfirm.setText(getString(R.string.confirm_single));
+            }
         }
     }
 
@@ -134,13 +140,12 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
 
     @Override
     public void onImageSelected(String path) {
-        btnConfirm.setText("确定(" + Constant.imageList.size() + "/" + config.maxNum + ")");
-
+        btnConfirm.setText(String.format(getString(R.string.confirm), Constant.imageList.size(), config.maxNum));
     }
 
     @Override
     public void onImageUnselected(String path) {
-        btnConfirm.setText("确定(" + Constant.imageList.size() + "/" + config.maxNum + ")");
+        btnConfirm.setText(String.format(getString(R.string.confirm), Constant.imageList.size(), config.maxNum));
     }
 
     @Override
@@ -196,11 +201,12 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         switch (requestCode){
             case STORAGE_REQUEST_CODE:
                 if(grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    getSupportFragmentManager().beginTransaction()
+                    getSupportFragmentManager()
+                            .beginTransaction()
                             .add(R.id.fmImageList, ImgSelFragment.instance(config), null)
                             .commitAllowingStateLoss();
                 } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:break;
