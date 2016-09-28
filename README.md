@@ -25,7 +25,6 @@ V1.1.0 增加自定义返回按钮图标及配置沉浸式状态栏选项
 ```
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 ```
 
 #### 使用
