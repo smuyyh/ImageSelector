@@ -1,6 +1,6 @@
 # ImageSelector
 
-Android 图片选择器。充分自由定制，支持图库多选/单选/图片裁剪/拍照/自定义图片加载库/沉浸式状态栏
+Android 图片选择器。充分自由定制，极大程度简化使用，支持图库多选/图片预览/单选/照片裁剪/拍照/自定义图片加载方式/自定义色调/沉浸式状态栏
 
 <img src="https://github.com/smuyyh/ImageSelector/blob/master/screenshot/screen_1.png?raw=true" width=280/>
 
@@ -13,7 +13,7 @@ dependencies {
 
 ## 版本
 
-**V1.2.0** 图片多选支持大图预览
+**V1.2.0 图片多选支持大图预览**
 
 V1.1.1 局部更新，解决图片闪烁问题
 
