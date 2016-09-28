@@ -82,6 +82,3 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 }
 ```
-
-## TODO
-选中图片大图预览功能
