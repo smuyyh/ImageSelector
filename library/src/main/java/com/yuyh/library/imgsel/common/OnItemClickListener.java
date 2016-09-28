@@ -8,5 +8,7 @@ import com.yuyh.library.imgsel.bean.Image;
  */
 public interface OnItemClickListener {
 
-    int onClick(int position, Image image);
+    int onCheckedClick(int position, Image image);
+
+    void onImageClick(int position, Image image);
 }

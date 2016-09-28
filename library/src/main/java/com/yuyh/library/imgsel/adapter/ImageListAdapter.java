@@ -9,9 +9,9 @@ import com.yuyh.easyadapter.recyclerview.EasyRVHolder;
 import com.yuyh.library.imgsel.ImgSelConfig;
 import com.yuyh.library.imgsel.R;
 import com.yuyh.library.imgsel.bean.Image;
+import com.yuyh.library.imgsel.common.Constant;
 import com.yuyh.library.imgsel.common.OnItemClickListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +25,6 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
 
     private ImgSelConfig config;
     private Context context;
-
-    private List<Image> selectedImageList = new ArrayList<>();
     private OnItemClickListener listener;
 
     public ImageListAdapter(Context context, List<Image> list, ImgSelConfig config) {
@@ -38,34 +36,51 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
     @Override
     protected void onBindData(final EasyRVHolder viewHolder, final int position, final Image item) {
 
-        viewHolder.getItemView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    int ret = listener.onClick(position, item);
-                    if (ret == 1 && mutiSelect) { // 局部刷新
-                        if (selectedImageList.contains(item)) {
-                            viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_checked);
-                        } else {
-                            viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_uncheck);
-                        }
-                    }
-                }
-            }
-        });
-
         if (position == 0 && showCamera) {
             ImageView iv = viewHolder.getView(R.id.ivTakePhoto);
             iv.setImageResource(R.drawable.ic_take_photo);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null)
+                        listener.onImageClick(position, item);
+                }
+            });
             return;
         }
+
+        if (mutiSelect) {
+            viewHolder.getView(R.id.ivPhotoCheaked).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int ret = listener.onCheckedClick(position, item);
+                        if (ret == 1) { // 局部刷新
+                            if (Constant.imageList.contains(item.path)) {
+                                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_checked);
+                            } else {
+                                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_uncheck);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        viewHolder.setOnItemViewClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null)
+                    listener.onImageClick(position, item);
+            }
+        });
 
         final ImageView iv = viewHolder.getView(R.id.ivImage);
         config.loader.displayImage(context, item.path, iv);
 
         if (mutiSelect) {
             viewHolder.setVisible(R.id.ivPhotoCheaked, true);
-            if (selectedImageList.contains(item)) {
+            if (Constant.imageList.contains(item.path)) {
                 viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_checked);
             } else {
                 viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_uncheck);
@@ -93,14 +108,5 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
-    }
-
-
-    public void select(Image image) {
-        if (selectedImageList.contains(image)) {
-            selectedImageList.remove(image);
-        } else {
-            selectedImageList.add(image);
-        }
     }
 }

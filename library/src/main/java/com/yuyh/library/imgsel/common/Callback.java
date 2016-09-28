@@ -16,4 +16,6 @@ public interface Callback extends Serializable {
     void onImageUnselected(String path);
 
     void onCameraShot(File imageFile);
+
+    void onPreviewChanged(int select, int sum, boolean visible);
 }

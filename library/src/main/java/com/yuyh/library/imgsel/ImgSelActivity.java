@@ -43,6 +43,8 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
     private ImageView ivBack;
     private String cropImagePath;
 
+    private ImgSelFragment fragment;
+
     private ArrayList<String> result = new ArrayList<>();
 
     public static void startActivity(Activity activity, ImgSelConfig config, int RequestCode) {
@@ -51,7 +53,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         activity.startActivityForResult(intent, RequestCode);
     }
 
-    public static void startActivity(Fragment fragment, ImgSelConfig config, int RequestCode){
+    public static void startActivity(Fragment fragment, ImgSelConfig config, int RequestCode) {
         Intent intent = new Intent(fragment.getActivity(), ImgSelActivity.class);
         Constant.config = config;
         fragment.startActivityForResult(intent, RequestCode);
@@ -70,8 +72,9 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     STORAGE_REQUEST_CODE);
         } else {
+            fragment = ImgSelFragment.instance();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fmImageList, ImgSelFragment.instance(config), null)
+                    .add(R.id.fmImageList, fragment, null)
                     .commit();
         }
 
@@ -108,7 +111,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
             tvTitle.setText(config.title);
             btnConfirm.setBackgroundColor(config.btnBgColor);
             btnConfirm.setTextColor(config.btnTextColor);
-            if(config.multiSelect){
+            if (config.multiSelect) {
                 btnConfirm.setText(String.format(getString(R.string.confirm), Constant.imageList.size(), config.maxNum));
             } else {
                 btnConfirm.setText(getString(R.string.confirm_single));
@@ -160,6 +163,15 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         }
     }
 
+    @Override
+    public void onPreviewChanged(int select, int sum, boolean visible) {
+        if (visible) {
+            tvTitle.setText(select + "/" + sum);
+        } else {
+            tvTitle.setText(config.title);
+        }
+    }
+
     private void crop(String imagePath) {
         File file = new File(FileUtils.createRootPath(this) + "/" + System.currentTimeMillis() + ".jpg");
 
@@ -198,18 +210,25 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case STORAGE_REQUEST_CODE:
-                if(grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .add(R.id.fmImageList, ImgSelFragment.instance(config), null)
+                            .add(R.id.fmImageList, ImgSelFragment.instance(), null)
                             .commitAllowingStateLoss();
                 } else {
                     Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                 }
                 break;
-            default:break;
+            default:
+                break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!fragment.hidePreview())
+            super.onBackPressed();
     }
 }

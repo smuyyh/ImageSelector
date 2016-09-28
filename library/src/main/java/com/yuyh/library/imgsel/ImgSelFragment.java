@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.yuyh.library.imgsel.adapter.FolderListAdapter;
 import com.yuyh.library.imgsel.adapter.ImageListAdapter;
+import com.yuyh.library.imgsel.adapter.PreviewAdapter;
 import com.yuyh.library.imgsel.bean.Folder;
 import com.yuyh.library.imgsel.bean.Image;
 import com.yuyh.library.imgsel.common.Callback;
@@ -34,6 +36,7 @@ import com.yuyh.library.imgsel.common.OnFolderChangeListener;
 import com.yuyh.library.imgsel.common.OnItemClickListener;
 import com.yuyh.library.imgsel.utils.FileUtils;
 import com.yuyh.library.imgsel.utils.LogUtils;
+import com.yuyh.library.imgsel.widget.CustomViewPager;
 import com.yuyh.library.imgsel.widget.DividerGridItemDecoration;
 
 import java.io.File;
@@ -41,11 +44,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ImgSelFragment extends Fragment implements View.OnClickListener {
+public class ImgSelFragment extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     private RecyclerView rvImageList;
     private Button btnAlbumSelected;
     private View rlBottom;
+    private CustomViewPager viewPager;
 
     private ImgSelConfig config;
     private Callback callback;
@@ -53,9 +57,9 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
     private List<Image> imageList = new ArrayList<>();
 
     private ListPopupWindow folderPopupWindow;
-
     private ImageListAdapter imageListAdapter;
     private FolderListAdapter folderListAdapter;
+    private PreviewAdapter previewAdapter;
 
     private boolean hasFolderGened = false;
     private static final int LOADER_ALL = 0;
@@ -64,7 +68,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
 
     private File tempFile;
 
-    public static ImgSelFragment instance(ImgSelConfig config) {
+    public static ImgSelFragment instance() {
         ImgSelFragment fragment = new ImgSelFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
@@ -78,13 +82,14 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
         btnAlbumSelected = (Button) view.findViewById(R.id.btnAlbumSelected);
         btnAlbumSelected.setOnClickListener(this);
         rlBottom = view.findViewById(R.id.rlBottom);
+        viewPager = (CustomViewPager) view.findViewById(R.id.viewPager);
+        viewPager.addOnPageChangeListener(this);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         config = Constant.config;
         try {
             callback = (Callback) getActivity();
@@ -103,44 +108,70 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
         rvImageList.setAdapter(imageListAdapter);
         imageListAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public int onClick(int position, Image image) {
+            public int onCheckedClick(int position, Image image) {
+                return checkedImage(position, image);
+            }
+
+            @Override
+            public void onImageClick(int position, Image image) {
                 if (config.needCamera && position == 0) {
                     showCameraAction();
                 } else {
-                    if (image != null) {
-                        if (config.multiSelect) {
-                            if (Constant.imageList.contains(image.path)) {
-                                Constant.imageList.remove(image.path);
-                                if (callback != null) {
-                                    callback.onImageUnselected(image.path);
-                                }
-                            } else {
-                                if (config.maxNum <= Constant.imageList.size()) {
-                                    Toast.makeText(getActivity(), String.format(getString(R.string.maxnum), config.maxNum), Toast.LENGTH_SHORT).show();
-                                    return 0;
-                                }
+                    if (config.multiSelect) {
+                        viewPager.setAdapter((previewAdapter = new PreviewAdapter(getActivity(), imageList, config)));
+                        previewAdapter.setListener(new OnItemClickListener() {
+                            @Override
+                            public int onCheckedClick(int position, Image image) {
+                                return checkedImage(position, image);
+                            }
 
-                                Constant.imageList.add(image.path);
-                                if (callback != null) {
-                                    callback.onImageSelected(image.path);
-                                }
+                            @Override
+                            public void onImageClick(int position, Image image) {
+                                hidePreview();
                             }
-                            imageListAdapter.select(image);
-                            return 1;
+                        });
+                        if (config.needCamera) {
+                            callback.onPreviewChanged(position, imageList.size() - 1, true);
                         } else {
-                            if (callback != null) {
-                                callback.onSingleImageSelected(image.path);
-                            }
+                            callback.onPreviewChanged(position + 1, imageList.size(), true);
+                        }
+                        viewPager.setCurrentItem(config.needCamera ? position - 1 : position);
+                        viewPager.setVisibility(View.VISIBLE);
+                    } else {
+                        if (callback != null) {
+                            callback.onSingleImageSelected(image.path);
                         }
                     }
                 }
-                return 0;
             }
         });
 
         folderListAdapter = new FolderListAdapter(getActivity(), folderList, config);
 
         getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+    }
+
+    private int checkedImage(int position, Image image) {
+        if (image != null) {
+            if (Constant.imageList.contains(image.path)) {
+                Constant.imageList.remove(image.path);
+                if (callback != null) {
+                    callback.onImageUnselected(image.path);
+                }
+            } else {
+                if (config.maxNum <= Constant.imageList.size()) {
+                    Toast.makeText(getActivity(), String.format(getString(R.string.maxnum), config.maxNum), Toast.LENGTH_SHORT).show();
+                    return 0;
+                }
+
+                Constant.imageList.add(image.path);
+                if (callback != null) {
+                    callback.onImageSelected(image.path);
+                }
+            }
+            return 1;
+        }
+        return 0;
     }
 
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
@@ -308,5 +339,35 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (config.needCamera) {
+            callback.onPreviewChanged(position + 1, imageList.size() - 1, true);
+        } else {
+            callback.onPreviewChanged(position + 1, imageList.size(), true);
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    public boolean hidePreview() {
+        if (viewPager.getVisibility() == View.VISIBLE) {
+            viewPager.setVisibility(View.GONE);
+            callback.onPreviewChanged(0, 0, false);
+            imageListAdapter.notifyDataSetChanged();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

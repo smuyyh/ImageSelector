@@ -8,7 +8,7 @@
         android:supportsRtl="true">
         <activity
             android:name=".ImgSelActivity"
-            android:theme="@style/SelTheme"/>
+            android:theme="@style/SelTheme" />
     </application>
 
 </manifest>
