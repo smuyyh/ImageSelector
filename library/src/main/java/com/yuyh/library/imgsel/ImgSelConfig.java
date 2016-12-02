@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Environment;
 
 import com.yuyh.library.imgsel.utils.FileUtils;
+import com.yuyh.library.imgsel.utils.SelApp;
 
 import java.io.Serializable;
 
@@ -55,6 +56,8 @@ public class ImgSelConfig {
      */
     public int titleBgColor;
 
+    public String btnText;
+
     /**
      * 确定按钮文字颜色
      */
@@ -64,6 +67,8 @@ public class ImgSelConfig {
      * 确定按钮背景色
      */
     public int btnBgColor;
+
+    public String allImagesText;
 
     /**
      * 拍照存储路径
@@ -93,8 +98,10 @@ public class ImgSelConfig {
         this.title = builder.title;
         this.titleBgColor = builder.titleBgColor;
         this.titleColor = builder.titleColor;
+        this.btnText = builder.btnText;
         this.btnBgColor = builder.btnBgColor;
         this.btnTextColor = builder.btnTextColor;
+        this.allImagesText = builder.allImagesText;
         this.filePath = builder.filePath;
         this.loader = builder.loader;
         this.aspectX = builder.aspectX;
@@ -114,8 +121,10 @@ public class ImgSelConfig {
         private String title;
         private int titleColor;
         private int titleBgColor;
+        private String btnText;
         private int btnTextColor;
         private int btnBgColor;
+        private String allImagesText;
         private String filePath;
         private ImageLoader loader;
 
@@ -132,12 +141,15 @@ public class ImgSelConfig {
             else
                 filePath = Environment.getRootDirectory().getAbsolutePath() + "/Camera";
 
-            title = "图片";
+            title = SelApp.getResString(R.string.image);
             titleBgColor = Color.parseColor("#3F51B5");
             titleColor = Color.WHITE;
 
+            btnText = SelApp.getResString(R.string.confirm);
             btnBgColor = Color.TRANSPARENT;
             btnTextColor = Color.WHITE;
+
+            allImagesText = SelApp.getResString(R.string.all_images);
 
             FileUtils.createDir(filePath);
         }
@@ -187,6 +199,11 @@ public class ImgSelConfig {
             return this;
         }
 
+        public Builder btnText(String btnText) {
+            this.btnText = btnText;
+            return this;
+        }
+
         public Builder btnTextColor(int btnTextColor) {
             this.btnTextColor = btnTextColor;
             return this;
@@ -194,6 +211,11 @@ public class ImgSelConfig {
 
         public Builder btnBgColor(int btnBgColor) {
             this.btnBgColor = btnBgColor;
+            return this;
+        }
+
+        public Builder allImagesText(String allImagesText) {
+            this.allImagesText = allImagesText;
             return this;
         }
 

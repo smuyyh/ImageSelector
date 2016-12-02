@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="maxnum">Select up to %1$d pictures</string>
+    <string name="all_images">All Images</string>
+    <string name="sd_disable">SD card is not available</string>
+
+    <string name="image">Images</string>
+    <string name="takephoto">Photo</string>
+
+    <string name="confirm_format">%1$s(%2$d/%3$d)</string>
+    <string name="confirm">Submit</string>
+
+    <string name="open_camera_failure">Failed to open the camera</string>
+
+    <string name="permission_denied">Camera permission denied</string>
+
+</resources>

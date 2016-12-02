@@ -56,17 +56,19 @@ public class MainActivity extends AppCompatActivity {
         ImgSelConfig config = new ImgSelConfig.Builder(loader)
                 // 是否多选
                 .multiSelect(false)
+                .btnText("Confirm")
                 // 确定按钮背景色
-                .btnBgColor(Color.GRAY)
+                //.btnBgColor(Color.parseColor(""))
                 // 确定按钮文字颜色
-                .btnTextColor(Color.BLUE)
+                .btnTextColor(Color.WHITE)
                 // 使用沉浸式状态栏
                 .statusBarColor(Color.parseColor("#3F51B5"))
                 // 返回图标ResId
                 .backResId(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_mtrl_am_alpha)
-                .title("图片")
+                .title("Images")
                 .titleColor(Color.WHITE)
                 .titleBgColor(Color.parseColor("#3F51B5"))
+                .allImagesText("All Images")
                 .cropSize(1, 1, 200, 200)
                 .needCrop(false)
                 // 第一个是否显示相机

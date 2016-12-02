@@ -1,14 +1,18 @@
 <resources>
-    <string name="app_name">library</string>
+    <string name="app_name">imgsel</string>
 
     <string name="maxnum">最多选择%1$d张图片</string>
     <string name="all_images">所有图片</string>
     <string name="sd_disable">SD卡不可用</string>
 
-    <string name="confirm">确定(%1$d/%2$d)</string>
-    <string name="confirm_single">确定</string>
+    <string name="image">图片</string>
+    <string name="takephoto">拍照</string>
+
+    <string name="confirm_format">%1$s(%2$d/%3$d)</string>
+    <string name="confirm">确定</string>
 
     <string name="open_camera_failure">打开相机失败</string>
 
     <string name="permission_denied">请打开相机权限</string>
+
 </resources>

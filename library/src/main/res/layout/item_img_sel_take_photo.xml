@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/ivTakePhoto"
-        android:text="拍照"/>
+        android:text="@string/takephoto"/>
 
 </com.yuyh.library.imgsel.widget.SquareRelativeLayout>

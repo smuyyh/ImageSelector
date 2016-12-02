@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_alignParentBottom="true"
-            android:background="#56000000"
+            android:background="@color/bottom_bg"
             android:clickable="true">
 
             <Button
@@ -32,7 +32,6 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:singleLine="true"
-                android:text="所有图片"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 

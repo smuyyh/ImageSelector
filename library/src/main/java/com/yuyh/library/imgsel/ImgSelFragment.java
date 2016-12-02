@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
@@ -96,6 +97,8 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
         } catch (Exception e) {
 
         }
+
+        btnAlbumSelected.setText(config.allImagesText);
 
         rvImageList.setLayoutManager(new GridLayoutManager(rvImageList.getContext(), 3));
         rvImageList.addItemDecoration(new DividerGridItemDecoration(rvImageList.getContext()));
@@ -259,7 +262,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
 
     private void createPopupFolderList(int width, int height) {
         folderPopupWindow = new ListPopupWindow(getActivity());
-        folderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        folderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         folderPopupWindow.setAdapter(folderListAdapter);
         folderPopupWindow.setContentWidth(width);
         folderPopupWindow.setWidth(width);
@@ -272,7 +275,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                 folderPopupWindow.dismiss();
                 if (position == 0) {
                     getActivity().getSupportLoaderManager().restartLoader(LOADER_ALL, null, mLoaderCallback);
-                    btnAlbumSelected.setText(getString(R.string.all_images));
+                    btnAlbumSelected.setText(config.allImagesText);
                 } else {
                     imageList.clear();
                     if (config.needCamera)
@@ -299,6 +302,9 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                 folderPopupWindow.dismiss();
             } else {
                 folderPopupWindow.show();
+                if (folderPopupWindow.getListView() != null) {
+                    folderPopupWindow.getListView().setDivider(new ColorDrawable(ContextCompat.getColor(getActivity(), R.color.bottom_bg)));
+                }
                 int index = folderListAdapter.getSelectIndex();
                 index = index == 0 ? index : index - 1;
                 folderPopupWindow.getListView().setSelection(index);

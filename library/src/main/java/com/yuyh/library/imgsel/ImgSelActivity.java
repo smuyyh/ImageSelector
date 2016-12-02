@@ -104,6 +104,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                         && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
                 }
             }
             rlTitleBar.setBackgroundColor(config.titleBgColor);
@@ -112,9 +113,9 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
             btnConfirm.setBackgroundColor(config.btnBgColor);
             btnConfirm.setTextColor(config.btnTextColor);
             if (config.multiSelect) {
-                btnConfirm.setText(String.format(getString(R.string.confirm), Constant.imageList.size(), config.maxNum));
+                btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
             } else {
-                btnConfirm.setText(getString(R.string.confirm_single));
+                btnConfirm.setText(config.btnText);
             }
         }
     }
@@ -143,12 +144,12 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
 
     @Override
     public void onImageSelected(String path) {
-        btnConfirm.setText(String.format(getString(R.string.confirm), Constant.imageList.size(), config.maxNum));
+        btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
     }
 
     @Override
     public void onImageUnselected(String path) {
-        btnConfirm.setText(String.format(getString(R.string.confirm), Constant.imageList.size(), config.maxNum));
+        btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
     }
 
     @Override
