@@ -45,7 +45,7 @@ private ImageLoader loader = new ImageLoader() {
     }
 };
 // 自由配置选项
-ImgSelConfig config = new ImgSelConfig.Builder(loader)
+ImgSelConfig config = new ImgSelConfig.Builder(context, loader)
         // 是否多选
         .multiSelect(false)
         // “确定”按钮背景色
