@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Multiselect(View view) {
         tvResult.setText("");
-        ImgSelConfig config = new ImgSelConfig.Builder(loader).multiSelect(true)
+        ImgSelConfig config = new ImgSelConfig.Builder(this, loader).multiSelect(true)
                 // 使用沉浸式状态栏
                 .statusBarColor(Color.parseColor("#3F51B5")).build();
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Single(View view) {
         tvResult.setText("");
-        ImgSelConfig config = new ImgSelConfig.Builder(loader)
+        ImgSelConfig config = new ImgSelConfig.Builder(this, loader)
                 // 是否多选
                 .multiSelect(false)
                 .btnText("Confirm")

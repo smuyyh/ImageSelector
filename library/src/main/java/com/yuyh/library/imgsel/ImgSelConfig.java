@@ -1,10 +1,10 @@
 package com.yuyh.library.imgsel;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Environment;
 
 import com.yuyh.library.imgsel.utils.FileUtils;
-import com.yuyh.library.imgsel.utils.SelApp;
 
 import java.io.Serializable;
 
@@ -133,7 +133,7 @@ public class ImgSelConfig {
         private int outputX = 400;
         private int outputY = 400;
 
-        public Builder(ImageLoader loader) {
+        public Builder(Context context, ImageLoader loader) {
             this.loader = loader;
 
             if (FileUtils.isSdCardAvailable())
@@ -141,15 +141,15 @@ public class ImgSelConfig {
             else
                 filePath = Environment.getRootDirectory().getAbsolutePath() + "/Camera";
 
-            title = SelApp.getResString(R.string.image);
+            title = context.getResources().getString(R.string.image);
             titleBgColor = Color.parseColor("#3F51B5");
             titleColor = Color.WHITE;
 
-            btnText = SelApp.getResString(R.string.confirm);
+            btnText = context.getResources().getString(R.string.confirm);
             btnBgColor = Color.TRANSPARENT;
             btnTextColor = Color.WHITE;
 
-            allImagesText = SelApp.getResString(R.string.all_images);
+            allImagesText = context.getResources().getString(R.string.all_images);
 
             FileUtils.createDir(filePath);
         }
