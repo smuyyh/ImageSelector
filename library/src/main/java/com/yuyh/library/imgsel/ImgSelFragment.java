@@ -244,7 +244,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                     imageListAdapter.notifyDataSetChanged();
 
                     if (Constant.imageList != null && Constant.imageList.size() > 0) {
-                        //adapter.setDefaultSelected(resultList);
+                        //imageListAdapter.setDefaultSelected(Constant.imageList);
                     }
 
                     folderListAdapter.notifyDataSetChanged();
@@ -262,7 +262,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
 
     private void createPopupFolderList(int width, int height) {
         folderPopupWindow = new ListPopupWindow(getActivity());
-        folderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        folderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#aaaaaa")));
         folderPopupWindow.setAdapter(folderListAdapter);
         folderPopupWindow.setContentWidth(width);
         folderPopupWindow.setWidth(width);

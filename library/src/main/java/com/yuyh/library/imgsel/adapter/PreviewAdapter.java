@@ -45,7 +45,6 @@ public class PreviewAdapter extends PagerAdapter {
         final ImageView photoView = (ImageView) root.findViewById(R.id.ivImage);
         final ImageView ivChecked = (ImageView) root.findViewById(R.id.ivPhotoCheaked);
 
-        displayImage(photoView, images.get(config.needCamera ? position + 1 : position).path);
         if (config.multiSelect) {
 
             ivChecked.setVisibility(View.VISIBLE);
@@ -86,6 +85,9 @@ public class PreviewAdapter extends PagerAdapter {
 
         container.addView(root, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
+
+        displayImage(photoView, images.get(config.needCamera ? position + 1 : position).path);
+
         return root;
     }
 

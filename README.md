@@ -7,17 +7,23 @@ Android 图片选择器。充分自由定制，极大程度简化使用，支持
 ## 依赖
 ```
 dependencies {
-    compile 'com.yuyh.imgsel:library:1.3.0'
+    compile 'com.yuyh.imgsel:library:1.3.1'
 }
 ```
 
 ## 版本
 
-**V1.3.0 图片多选支持大图预览, 修复部分bug**
+**V1.3.1 图片多选支持大图预览, 修复部分bug**
 
 V1.1.1 局部更新，解决图片闪烁问题
 
 V1.1.0 增加自定义返回按钮图标及配置沉浸式状态栏选项
+
+## 注意事项
+
+1. 图片加载由调用者自定义一个ImageLoader（详见[使用方式](#使用方式)）, 可通过Glide、Picasso等方式加载
+2. 用户自行选择加载方式，所以加载图片不受本库控制，若出现OOM等问题，可能需要在displayImage里进行压缩处理等
+3. 有好的建议可以提[issue](https://github.com/smuyyh/ImageSelector/issues/new), 谢谢~~
 
 ## 使用
 
@@ -27,7 +33,7 @@ V1.1.0 增加自定义返回按钮图标及配置沉浸式状态栏选项
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
 
-#### 使用
+#### 使用方式
 
 ```java
 // 自定义图片加载器

@@ -9,7 +9,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvImageList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?android:attr/actionBarSize"/>
 
         <RelativeLayout
             android:id="@+id/rlBottom"
@@ -32,6 +33,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:singleLine="true"
+                android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 

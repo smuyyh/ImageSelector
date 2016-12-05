@@ -63,7 +63,6 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_img_sel);
-        Constant.imageList.clear();
         config = Constant.config;
 
         // Android 6.0 checkSelfPermission
@@ -115,6 +114,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
             if (config.multiSelect) {
                 btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
             } else {
+                Constant.imageList.clear();
                 btnConfirm.setText(config.btnText);
             }
         }
@@ -128,7 +128,10 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
                 exit();
             }
         } else if (id == R.id.ivBack) {
-            finish();
+            if (fragment == null || !fragment.hidePreview()) {
+                Constant.imageList.clear();
+                finish();
+            }
         }
     }
 
@@ -204,7 +207,11 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         result.addAll(Constant.imageList);
         intent.putStringArrayListExtra(INTENT_RESULT, result);
         setResult(RESULT_OK, intent);
-        Constant.imageList.clear();
+
+        if (!config.multiSelect) {
+            Constant.imageList.clear();
+        }
+
         finish();
     }
 
@@ -229,7 +236,9 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        if (!fragment.hidePreview())
+        if (fragment == null || !fragment.hidePreview()) {
+            Constant.imageList.clear();
             super.onBackPressed();
+        }
     }
 }
