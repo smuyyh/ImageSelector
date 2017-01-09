@@ -2,6 +2,7 @@
 
 <resources>
 
+    <string name="minnum">Select at least one picture.</string>
     <string name="maxnum">Select up to %1$d pictures</string>
     <string name="all_images">All Images</string>
     <string name="sd_disable">SD card is not available</string>

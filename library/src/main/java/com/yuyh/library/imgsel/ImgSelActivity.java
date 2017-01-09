@@ -115,7 +115,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
                 btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
             } else {
                 Constant.imageList.clear();
-                btnConfirm.setText(config.btnText);
+                btnConfirm.setVisibility(View.GONE);
             }
         }
     }
@@ -126,12 +126,11 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         if (id == R.id.btnConfirm) {
             if (Constant.imageList != null && !Constant.imageList.isEmpty()) {
                 exit();
+            } else {
+                Toast.makeText(this, getString(R.string.minnum), Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.ivBack) {
-            if (fragment == null || !fragment.hidePreview()) {
-                Constant.imageList.clear();
-                finish();
-            }
+            onBackPressed();
         }
     }
 
@@ -162,6 +161,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
                 crop(imageFile.getAbsolutePath());
             } else {
                 Constant.imageList.add(imageFile.getAbsolutePath());
+                config.multiSelect = false; // 多选点击拍照，强制更改为单选
                 exit();
             }
         }
@@ -196,6 +196,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_CROP_CODE && resultCode == RESULT_OK) {
             Constant.imageList.add(cropImagePath);
+            config.multiSelect = false; // 多选点击拍照，强制更改为单选
             exit();
         }
         super.onActivityResult(requestCode, resultCode, data);

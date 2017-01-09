@@ -22,7 +22,7 @@ public class ImgSelConfig {
     /**
      * 是否多选
      */
-    public boolean multiSelect;
+    public boolean multiSelect = false;
 
     /**
      * 最多选择图片数

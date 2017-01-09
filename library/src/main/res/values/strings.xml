@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">imgsel</string>
 
+    <string name="minnum">最少选择一张图片</string>
     <string name="maxnum">最多选择%1$d张图片</string>
     <string name="all_images">所有图片</string>
     <string name="sd_disable">SD卡不可用</string>
