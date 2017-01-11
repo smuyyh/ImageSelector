@@ -7,13 +7,13 @@ Android 图片选择器。充分自由定制，极大程度简化使用，支持
 ## 依赖
 ```
 dependencies {
-    compile 'com.yuyh.imgsel:library:1.3.3'
+    compile 'com.yuyh.imgsel:library:1.3.4'
 }
 ```
 
 ## 版本
 
-**V1.3.2 图片多选支持大图预览, 修复部分bug**
+**V1.3.4 图片多选支持大图预览, 修复部分bug**
 
 V1.1.1 局部更新，解决图片闪烁问题
 
