@@ -1,14 +1,17 @@
 package com.yuyh.library.imgsel;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -63,9 +66,12 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
     private PreviewAdapter previewAdapter;
 
     private boolean hasFolderGened = false;
+
     private static final int LOADER_ALL = 0;
     private static final int LOADER_CATEGORY = 1;
     private static final int REQUEST_CAMERA = 5;
+
+    private static final int CAMERA_REQUEST_CODE = 1;
 
     private File tempFile;
 
@@ -317,6 +323,13 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
             Toast.makeText(getActivity(), String.format(getString(R.string.maxnum), config.maxNum), Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+            return;
+        }
+
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             tempFile = new File(FileUtils.createRootPath(getActivity()) + "/" + System.currentTimeMillis() + ".jpg");
@@ -345,6 +358,22 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CAMERA_REQUEST_CODE:
+                if (grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showCameraAction();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.permission_camera_denied), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

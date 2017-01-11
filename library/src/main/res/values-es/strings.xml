@@ -15,6 +15,8 @@
 
     <string name="open_camera_failure">Failed to open the camera</string>
 
-    <string name="permission_denied">Camera permission denied</string>
+    <string name="permission_storage_denied">Storage permission denied</string>
+
+    <string name="permission_camera_denied">Camera permission denied</string>
 
 </resources>

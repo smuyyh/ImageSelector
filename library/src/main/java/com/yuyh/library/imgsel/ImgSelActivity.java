@@ -227,7 +227,7 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
                             .add(R.id.fmImageList, ImgSelFragment.instance(), null)
                             .commitAllowingStateLoss();
                 } else {
-                    Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.permission_storage_denied), Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
