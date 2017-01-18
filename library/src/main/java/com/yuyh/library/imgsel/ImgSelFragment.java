@@ -224,6 +224,10 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                         if (!hasFolderGened) {
                             File imageFile = new File(path);
                             File folderFile = imageFile.getParentFile();
+                            if(folderFile==null){
+								System.out.println(path);
+								return;
+							}
                             Folder folder = new Folder();
                             folder.name = folderFile.getName();
                             folder.path = folderFile.getAbsolutePath();
@@ -288,7 +292,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                         imageList.add(new Image());
                     imageList.addAll(folder.images);
                     imageListAdapter.notifyDataSetChanged();
-
+                        
                     btnAlbumSelected.setText(folder.name);
                 }
             }
