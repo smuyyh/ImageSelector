@@ -29,6 +29,12 @@ import com.yuyh.library.imgsel.utils.StatusBarCompat;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * https://github.com/smuyyh/ImageSelector
+ *
+ * @author yuyh.
+ * @date 2016/8/5.
+ */
 public class ImgSelActivity extends FragmentActivity implements View.OnClickListener, Callback {
 
     public static final String INTENT_RESULT = "result";
@@ -111,7 +117,11 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
             tvTitle.setText(config.title);
             btnConfirm.setBackgroundColor(config.btnBgColor);
             btnConfirm.setTextColor(config.btnTextColor);
+
             if (config.multiSelect) {
+                if (!config.rememberSelected) {
+                    Constant.imageList.clear();
+                }
                 btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
             } else {
                 Constant.imageList.clear();
