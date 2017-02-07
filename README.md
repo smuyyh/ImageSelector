@@ -7,17 +7,13 @@ Android 图片选择器。充分自由定制，极大程度简化使用，支持
 ## 依赖
 ```
 dependencies {
-    compile 'com.yuyh.imgsel:library:1.3.4'
+    compile 'com.yuyh.imgsel:library:1.3.5'
 }
 ```
 
 ## 版本
 
-**V1.3.4 图片多选支持大图预览, 修复部分bug**
-
-V1.1.1 局部更新，解决图片闪烁问题
-
-V1.1.0 增加自定义返回按钮图标及配置沉浸式状态栏选项
+**V1.3.5 图片多选支持大图预览, 部分优化**
 
 ## 注意事项
 
@@ -48,8 +44,10 @@ private ImageLoader loader = new ImageLoader() {
 };
 // 自由配置选项
 ImgSelConfig config = new ImgSelConfig.Builder(context, loader)
-        // 是否多选
+        // 是否多选, 默认true
         .multiSelect(false)
+        // 是否记住上次选中记录, 仅当multiSelect为true的时候配置，默认为true
+        .rememberSelected(false)
         // “确定”按钮背景色
         .btnBgColor(Color.GRAY)
         // “确定”按钮文字颜色
@@ -67,9 +65,9 @@ ImgSelConfig config = new ImgSelConfig.Builder(context, loader)
         // 裁剪大小。needCrop为true的时候配置
         .cropSize(1, 1, 200, 200)
         .needCrop(true)
-        // 第一个是否显示相机
+        // 第一个是否显示相机，默认true
         .needCamera(false)
-        // 最大选择图片数量
+        // 最大选择图片数量，默认9
         .maxNum(9)
         .build();
         
@@ -89,4 +87,22 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         }
     }
 }
+```
+
+## License
+
+```
+   Copyright (c) 2016 smuyyh. All right reserved.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 ```

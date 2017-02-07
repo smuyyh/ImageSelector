@@ -18,6 +18,12 @@ import com.yuyh.library.imgsel.ImgSelConfig;
 
 import java.util.List;
 
+/**
+ * https://github.com/smuyyh/ImageSelector
+ *
+ * @author yuyh.
+ * @date 2016/8/5.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0;
@@ -46,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         tvResult.setText("");
         ImgSelConfig config = new ImgSelConfig.Builder(this, loader)
                 .multiSelect(true)
+                // 是否记住上次选中记录
+                .rememberSelected(false)
                 // 使用沉浸式状态栏
                 .statusBarColor(Color.parseColor("#3F51B5")).build();
 

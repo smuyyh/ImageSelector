@@ -25,6 +25,11 @@ public class ImgSelConfig {
     public boolean multiSelect = false;
 
     /**
+     * 是否记住上次的选中记录(只对多选有效)
+     */
+    public boolean rememberSelected = true;
+
+    /**
      * 最多选择图片数
      */
     public int maxNum = 9;
@@ -91,6 +96,7 @@ public class ImgSelConfig {
     public ImgSelConfig(Builder builder) {
         this.needCrop = builder.needCrop;
         this.multiSelect = builder.multiSelect;
+        this.rememberSelected = builder.rememberSelected;
         this.maxNum = builder.maxNum;
         this.needCamera = builder.needCamera;
         this.statusBarColor = builder.statusBarColor;
@@ -114,6 +120,7 @@ public class ImgSelConfig {
 
         private boolean needCrop = false;
         private boolean multiSelect = true;
+        private boolean rememberSelected = true;
         private int maxNum = 9;
         private boolean needCamera = true;
         public int statusBarColor = -1;
@@ -161,6 +168,11 @@ public class ImgSelConfig {
 
         public Builder multiSelect(boolean multiSelect) {
             this.multiSelect = multiSelect;
+            return this;
+        }
+
+        public Builder rememberSelected(boolean rememberSelected){
+            this.rememberSelected = rememberSelected;
             return this;
         }
 
