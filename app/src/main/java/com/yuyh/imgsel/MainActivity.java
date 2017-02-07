@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void Multiselect(View view) {
         tvResult.setText("");
-        ImgSelConfig config = new ImgSelConfig.Builder(this, loader).multiSelect(true)
+        ImgSelConfig config = new ImgSelConfig.Builder(this, loader)
+                .multiSelect(true)
                 // 使用沉浸式状态栏
                 .statusBarColor(Color.parseColor("#3F51B5")).build();
 
@@ -69,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 .titleColor(Color.WHITE)
                 .titleBgColor(Color.parseColor("#3F51B5"))
                 .allImagesText("All Images")
+                .needCrop(true)
                 .cropSize(1, 1, 200, 200)
-                .needCrop(false)
                 // 第一个是否显示相机
                 .needCamera(true)
                 // 最大选择图片数量
