@@ -5,9 +5,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -224,10 +226,10 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                         if (!hasFolderGened) {
                             File imageFile = new File(path);
                             File folderFile = imageFile.getParentFile();
-                            if(folderFile==null){
-								System.out.println(path);
-								return;
-							}
+                            if (folderFile == null) {
+                                System.out.println(path);
+                                return;
+                            }
                             Folder folder = new Folder();
                             folder.name = folderFile.getName();
                             folder.path = folderFile.getAbsolutePath();
@@ -292,7 +294,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                         imageList.add(new Image());
                     imageList.addAll(folder.images);
                     imageListAdapter.notifyDataSetChanged();
-                        
+
                     btnAlbumSelected.setText(folder.name);
                 }
             }
@@ -323,6 +325,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
     }
 
     private void showCameraAction() {
+
         if (config.maxNum <= Constant.imageList.size()) {
             Toast.makeText(getActivity(), String.format(getString(R.string.maxnum), config.maxNum), Toast.LENGTH_SHORT).show();
             return;
@@ -335,12 +338,24 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
         }
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             tempFile = new File(FileUtils.createRootPath(getActivity()) + "/" + System.currentTimeMillis() + ".jpg");
             LogUtils.e(tempFile.getAbsolutePath());
             FileUtils.createFile(tempFile);
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getActivity(),
-                    BuildConfig.APPLICATION_ID + ".provider", tempFile)); //Uri.fromFile(tempFile)
+
+            Uri uri = FileProvider.getUriForFile(getActivity(),
+                    BuildConfig.APPLICATION_ID + ".provider", tempFile);
+
+            List<ResolveInfo> resInfoList = getActivity().getPackageManager()
+                    .queryIntentActivities(cameraIntent, PackageManager.MATCH_DEFAULT_ONLY);
+            for (ResolveInfo resolveInfo : resInfoList) {
+                String packageName = resolveInfo.activityInfo.packageName;
+                getActivity().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri); //Uri.fromFile(tempFile)
             startActivityForResult(cameraIntent, REQUEST_CAMERA);
         } else {
             Toast.makeText(getActivity(), getString(R.string.open_camera_failure), Toast.LENGTH_SHORT).show();
