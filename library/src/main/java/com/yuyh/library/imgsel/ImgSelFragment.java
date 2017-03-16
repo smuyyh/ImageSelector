@@ -345,7 +345,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
             FileUtils.createFile(tempFile);
 
             Uri uri = FileProvider.getUriForFile(getActivity(),
-                    BuildConfig.APPLICATION_ID + ".provider", tempFile);
+                    FileUtils.getApplicationId(getActivity()) + ".provider", tempFile);
 
             List<ResolveInfo> resInfoList = getActivity().getPackageManager()
                     .queryIntentActivities(cameraIntent, PackageManager.MATCH_DEFAULT_ONLY);

@@ -212,9 +212,9 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
         String filePath = imageFile.getAbsolutePath();
         Cursor cursor = getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[] { MediaStore.Images.Media._ID },
+                new String[]{MediaStore.Images.Media._ID},
                 MediaStore.Images.Media.DATA + "=? ",
-                new String[] { filePath }, null);
+                new String[]{filePath}, null);
 
         if (cursor != null && cursor.moveToFirst()) {
             int id = cursor.getInt(cursor
