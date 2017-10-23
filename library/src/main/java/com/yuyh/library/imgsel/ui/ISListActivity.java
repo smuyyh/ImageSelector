@@ -285,6 +285,18 @@ public class ISListActivity extends FragmentActivity implements View.OnClickList
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("config", config);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        config = (ISListConfig) savedInstanceState.getSerializable("config");
+    }
+
+    @Override
     public void onBackPressed() {
         if (fragment == null || !fragment.hidePreview()) {
             Constant.imageList.clear();
