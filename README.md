@@ -7,13 +7,13 @@ Android 图片选择器。充分自由定制，极大程度简化使用，支持
 ## 依赖
 ```
 dependencies {
-    compile 'com.yuyh.imgsel:library:1.3.8'
+    compile 'com.yuyh.imgsel:library:2.0.0'
 }
 ```
 
 ## 版本
 
-**V1.3.8 图片裁剪适配android-7.0 解决Provider冲突**
+**V2.0.0 支持单独跳转拍照，一些优化**
 
 ## 注意事项
 
