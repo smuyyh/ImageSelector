@@ -11,15 +11,13 @@ public class Image implements Serializable {
     public String path;
     public String name;
 
-    public boolean isCamera = false;
-
     public Image(String path, String name) {
         this.path = path;
         this.name = name;
     }
 
     public Image() {
-        isCamera = true;
+
     }
 
     @Override

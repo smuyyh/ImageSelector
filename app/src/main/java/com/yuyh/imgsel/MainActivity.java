@@ -13,9 +13,7 @@ import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yuyh.library.imgsel.ISNav;
-import com.yuyh.library.imgsel.ui.ISCameraActivity;
 import com.yuyh.library.imgsel.common.ImageLoader;
-import com.yuyh.library.imgsel.ui.ISListActivity;
 import com.yuyh.library.imgsel.config.ISCameraConfig;
 import com.yuyh.library.imgsel.config.ISListConfig;
 
@@ -45,15 +43,13 @@ public class MainActivity extends AppCompatActivity {
         tvResult = (TextView) findViewById(R.id.tvResult);
         draweeView = (SimpleDraweeView) findViewById(R.id.my_image_view);
 
-        ISNav.getInstance().init(loader);
+        ISNav.getInstance().init(new ImageLoader() {
+            @Override
+            public void displayImage(Context context, String path, ImageView imageView) {
+                Glide.with(context).load(path).into(imageView);
+            }
+        });
     }
-
-    private ImageLoader loader = new ImageLoader() {
-        @Override
-        public void displayImage(Context context, String path, ImageView imageView) {
-            Glide.with(context).load(path).into(imageView);
-        }
-    };
 
     public void Multiselect(View view) {
         tvResult.setText("");

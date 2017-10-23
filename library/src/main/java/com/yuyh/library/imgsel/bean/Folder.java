@@ -14,16 +14,9 @@ public class Folder implements Serializable {
     public Image cover;
     public List<Image> images;
 
-    public boolean isAll = false;
-
     public Folder() {
 
     }
-
-    public Folder(boolean isAll) {
-        this.isAll = isAll;
-    }
-
     @Override
     public boolean equals(Object o) {
         try {

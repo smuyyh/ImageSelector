@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -24,11 +25,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.yuyh.library.imgsel.R;
@@ -42,6 +46,7 @@ import com.yuyh.library.imgsel.common.Constant;
 import com.yuyh.library.imgsel.common.OnFolderChangeListener;
 import com.yuyh.library.imgsel.common.OnItemClickListener;
 import com.yuyh.library.imgsel.config.ISListConfig;
+import com.yuyh.library.imgsel.ui.ISListActivity;
 import com.yuyh.library.imgsel.utils.FileUtils;
 import com.yuyh.library.imgsel.utils.LogUtils;
 import com.yuyh.library.imgsel.widget.CustomViewPager;
@@ -101,12 +106,8 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        config = Constant.config;
-        try {
-            callback = (Callback) getActivity();
-        } catch (Exception e) {
-
-        }
+        config = ((ISListActivity) getActivity()).getConfig();
+        callback = ((ISListActivity) getActivity());
 
         btnAlbumSelected.setText(config.allImagesText);
 
@@ -192,21 +193,18 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
         private final String[] IMAGE_PROJECTION = {
                 MediaStore.Images.Media.DATA,
                 MediaStore.Images.Media.DISPLAY_NAME,
-                MediaStore.Images.Media.DATE_ADDED,
                 MediaStore.Images.Media._ID};
 
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             if (id == LOADER_ALL) {
-                CursorLoader cursorLoader = new CursorLoader(getActivity(),
+                return new CursorLoader(getActivity(),
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
-                        null, null, IMAGE_PROJECTION[2] + " DESC");
-                return cursorLoader;
+                        null, null, MediaStore.Images.Media.DATE_ADDED + " DESC");
             } else if (id == LOADER_CATEGORY) {
-                CursorLoader cursorLoader = new CursorLoader(getActivity(),
+                return new CursorLoader(getActivity(),
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
-                        IMAGE_PROJECTION[0] + " like '%" + args.getString("path") + "%'", null, IMAGE_PROJECTION[2] + " DESC");
-                return cursorLoader;
+                        IMAGE_PROJECTION[0] + " not like '%.gif%'", null, MediaStore.Images.Media.DATE_ADDED + " DESC");
             }
             return null;
         }
@@ -221,32 +219,36 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                     do {
                         String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
                         String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
-                        long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
                         Image image = new Image(path, name);
-                        if (!image.path.endsWith("gif"))
-                            tempImageList.add(image);
+                        tempImageList.add(image);
                         if (!hasFolderGened) {
                             File imageFile = new File(path);
                             File folderFile = imageFile.getParentFile();
                             if (folderFile == null) {
-                                System.out.println(path);
                                 return;
                             }
-                            Folder folder = new Folder();
-                            folder.name = folderFile.getName();
-                            folder.path = folderFile.getAbsolutePath();
-                            folder.cover = image;
-                            if (!folderList.contains(folder)) {
+
+                            Folder parent = null;
+                            for (Folder folder : folderList) {
+                                if (TextUtils.equals(folder.path, folderFile.getAbsolutePath())) {
+                                    parent = folder;
+                                }
+                            }
+                            if (parent != null) {
+                                parent.images.add(image);
+                            } else {
+                                parent = new Folder();
+                                parent.name = folderFile.getName();
+                                parent.path = folderFile.getAbsolutePath();
+                                parent.cover = image;
+
                                 List<Image> imageList = new ArrayList<>();
                                 imageList.add(image);
-                                folder.images = imageList;
-                                folderList.add(folder);
-                            } else {
-                                Folder f = folderList.get(folderList.indexOf(folder));
-                                f.images.add(image);
+
+                                parent.images = imageList;
+                                folderList.add(parent);
                             }
                         }
-
                     } while (data.moveToNext());
 
                     imageList.clear();
@@ -254,13 +256,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                         imageList.add(new Image());
                     imageList.addAll(tempImageList);
 
-
                     imageListAdapter.notifyDataSetChanged();
-
-                    if (Constant.imageList != null && Constant.imageList.size() > 0) {
-                        //imageListAdapter.setDefaultSelected(Constant.imageList);
-                    }
-
                     folderListAdapter.notifyDataSetChanged();
 
                     hasFolderGened = true;
@@ -280,7 +276,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
         folderPopupWindow.setAdapter(folderListAdapter);
         folderPopupWindow.setContentWidth(width);
         folderPopupWindow.setWidth(width);
-        folderPopupWindow.setHeight(height);
+        folderPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         folderPopupWindow.setAnchorView(rlBottom);
         folderPopupWindow.setModal(true);
         folderListAdapter.setOnFloderChangeListener(new OnFolderChangeListener() {
@@ -301,15 +297,27 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                 }
             }
         });
+        folderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setBackgroundAlpha(1.0f);
+            }
+        });
+    }
+
+    public void setBackgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getActivity().getWindow().setAttributes(lp);
     }
 
     @Override
     public void onClick(View v) {
+        WindowManager wm = getActivity().getWindowManager();
+        final int size = wm.getDefaultDisplay().getWidth() / 3 * 2;
         if (v.getId() == btnAlbumSelected.getId()) {
             if (folderPopupWindow == null) {
-                WindowManager wm = getActivity().getWindowManager();
-                int width = wm.getDefaultDisplay().getWidth();
-                createPopupFolderList(width / 3 * 2, width / 3 * 2);
+                createPopupFolderList(size, size);
             }
 
             if (folderPopupWindow.isShowing()) {
@@ -322,6 +330,23 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                 int index = folderListAdapter.getSelectIndex();
                 index = index == 0 ? index : index - 1;
                 folderPopupWindow.getListView().setSelection(index);
+
+                folderPopupWindow.getListView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                            folderPopupWindow.getListView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        } else {
+                            folderPopupWindow.getListView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                        int h = folderPopupWindow.getListView().getMeasuredHeight();
+                        if (h > size) {
+                            folderPopupWindow.setHeight(size);
+                            folderPopupWindow.show();
+                        }
+                    }
+                });
+                setBackgroundAlpha(0.6f);
             }
         }
     }

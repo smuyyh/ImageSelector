@@ -23,56 +23,48 @@ dependencies {
 
 ## 使用
 
-#### 配置权限
-
-```xml
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.CAMERA"/>
-```
-
-#### 使用方式
+#### 图片选择器
 
 ```java
 // 自定义图片加载器
-private ImageLoader loader = new ImageLoader() {
+ISNav.getInstance().init(new ImageLoader() {
     @Override
     public void displayImage(Context context, String path, ImageView imageView) {
-        // TODO 在这边可以自定义图片加载库来加载ImageView，例如Glide、Picasso、ImageLoader等
         Glide.with(context).load(path).into(imageView);
     }
-};
+});
+
 // 自由配置选项
-ImgSelConfig config = new ImgSelConfig.Builder(context, loader)
-        // 是否多选, 默认true
-        .multiSelect(false)
-        // 是否记住上次选中记录, 仅当multiSelect为true的时候配置，默认为true
-        .rememberSelected(false)
-        // “确定”按钮背景色
-        .btnBgColor(Color.GRAY)
-        // “确定”按钮文字颜色
-        .btnTextColor(Color.BLUE)
-        // 使用沉浸式状态栏
-        .statusBarColor(Color.parseColor("#3F51B5"))
-        // 返回图标ResId
-        .backResId(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_mtrl_am_alpha)
-        // 标题
-        .title("图片")
-        // 标题文字颜色
-        .titleColor(Color.WHITE)
-        // TitleBar背景色
-        .titleBgColor(Color.parseColor("#3F51B5"))
-        // 裁剪大小。needCrop为true的时候配置
-        .cropSize(1, 1, 200, 200)
-        .needCrop(true)
-        // 第一个是否显示相机，默认true
-        .needCamera(false)
-        // 最大选择图片数量，默认9
-        .maxNum(9)
-        .build();
+ImgSelConfig config = new ImgSelConfig.Builder()
+    // 是否多选, 默认true
+    .multiSelect(false)
+    // 是否记住上次选中记录, 仅当multiSelect为true的时候配置，默认为true
+    .rememberSelected(false)
+    // “确定”按钮背景色
+    .btnBgColor(Color.GRAY)
+    // “确定”按钮文字颜色
+    .btnTextColor(Color.BLUE)
+    // 使用沉浸式状态栏
+    .statusBarColor(Color.parseColor("#3F51B5"))
+    // 返回图标ResId
+    .backResId(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_mtrl_am_alpha)
+    // 标题
+    .title("图片")
+    // 标题文字颜色
+    .titleColor(Color.WHITE)
+    // TitleBar背景色
+    .titleBgColor(Color.parseColor("#3F51B5"))
+    // 裁剪大小。needCrop为true的时候配置
+    .cropSize(1, 1, 200, 200)
+    .needCrop(true)
+    // 第一个是否显示相机，默认true
+    .needCamera(false)
+    // 最大选择图片数量，默认9
+    .maxNum(9)
+    .build();
         
 // 跳转到图片选择器
-ImgSelActivity.startActivity(this, config, REQUEST_CODE);
+ISNav.getInstance().toListActivity(this, config, REQUEST_LIST_CODE);
 ```
 
 ```java
@@ -85,6 +77,29 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         for (String path : pathList) {
             tvResult.append(path + "\n");
         }
+    }
+}
+```
+
+#### 直接拍照
+
+```java
+ISCameraConfig config = new ISCameraConfig.Builder()
+        .needCrop(true) // 裁剪
+        .cropSize(1, 1, 200, 200)
+        .build();
+
+ISNav.getInstance().toCameraActivity(this, config, REQUEST_CAMERA_CODE);
+```
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == REQUEST_CAMERA_CODE && resultCode == RESULT_OK && data != null) {
+        String path = data.getStringExtra("result"); // 图片地址
+        tvResult.append(path + "\n");
     }
 }
 ```

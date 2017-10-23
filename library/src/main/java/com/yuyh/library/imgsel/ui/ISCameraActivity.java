@@ -27,7 +27,6 @@ import com.yuyh.library.imgsel.utils.LogUtils;
 import com.yuyh.library.imgsel.utils.StatusBarCompat;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
