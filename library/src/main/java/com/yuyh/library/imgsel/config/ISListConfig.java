@@ -1,9 +1,9 @@
-package com.yuyh.library.imgsel;
+package com.yuyh.library.imgsel.config;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Environment;
 
+import com.yuyh.library.imgsel.common.ImageLoader;
 import com.yuyh.library.imgsel.utils.FileUtils;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author yuyh.
  * @date 2016/8/5.
  */
-public class ImgSelConfig {
+public class ISListConfig implements Serializable {
 
     /**
      * 是否需要裁剪
@@ -81,11 +81,6 @@ public class ImgSelConfig {
     public String filePath;
 
     /**
-     * 自定义图片加载器
-     */
-    public ImageLoader loader;
-
-    /**
      * 裁剪输出大小
      */
     public int aspectX = 1;
@@ -93,7 +88,7 @@ public class ImgSelConfig {
     public int outputX = 500;
     public int outputY = 500;
 
-    public ImgSelConfig(Builder builder) {
+    public ISListConfig(Builder builder) {
         this.needCrop = builder.needCrop;
         this.multiSelect = builder.multiSelect;
         this.rememberSelected = builder.rememberSelected;
@@ -109,7 +104,6 @@ public class ImgSelConfig {
         this.btnTextColor = builder.btnTextColor;
         this.allImagesText = builder.allImagesText;
         this.filePath = builder.filePath;
-        this.loader = builder.loader;
         this.aspectX = builder.aspectX;
         this.aspectY = builder.aspectY;
         this.outputX = builder.outputX;
@@ -133,30 +127,28 @@ public class ImgSelConfig {
         private int btnBgColor;
         private String allImagesText;
         private String filePath;
-        private ImageLoader loader;
 
         private int aspectX = 1;
         private int aspectY = 1;
         private int outputX = 400;
         private int outputY = 400;
 
-        public Builder(Context context, ImageLoader loader) {
-            this.loader = loader;
+        public Builder() {
 
             if (FileUtils.isSdCardAvailable())
                 filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Camera";
             else
                 filePath = Environment.getRootDirectory().getAbsolutePath() + "/Camera";
 
-            title = context.getResources().getString(R.string.image);
+            title = "照片";
             titleBgColor = Color.parseColor("#3F51B5");
             titleColor = Color.WHITE;
 
-            btnText = context.getResources().getString(R.string.confirm);
+            btnText = "确定";
             btnBgColor = Color.TRANSPARENT;
             btnTextColor = Color.WHITE;
 
-            allImagesText = context.getResources().getString(R.string.all_images);
+            allImagesText = "所有图片";
 
             FileUtils.createDir(filePath);
         }
@@ -171,7 +163,7 @@ public class ImgSelConfig {
             return this;
         }
 
-        public Builder rememberSelected(boolean rememberSelected){
+        public Builder rememberSelected(boolean rememberSelected) {
             this.rememberSelected = rememberSelected;
             return this;
         }
@@ -244,8 +236,8 @@ public class ImgSelConfig {
             return this;
         }
 
-        public ImgSelConfig build() {
-            return new ImgSelConfig(this);
+        public ISListConfig build() {
+            return new ISListConfig(this);
         }
     }
 }

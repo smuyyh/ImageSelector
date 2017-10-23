@@ -12,9 +12,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.yuyh.library.imgsel.ImageLoader;
-import com.yuyh.library.imgsel.ImgSelActivity;
-import com.yuyh.library.imgsel.ImgSelConfig;
+import com.yuyh.library.imgsel.ISNav;
+import com.yuyh.library.imgsel.ui.ISCameraActivity;
+import com.yuyh.library.imgsel.common.ImageLoader;
+import com.yuyh.library.imgsel.ui.ISListActivity;
+import com.yuyh.library.imgsel.config.ISCameraConfig;
+import com.yuyh.library.imgsel.config.ISListConfig;
 
 import java.util.List;
 
@@ -26,7 +29,9 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CODE = 0;
+    private static final int REQUEST_LIST_CODE = 0;
+    private static final int REQUEST_CAMERA_CODE = 1;
+
     private TextView tvResult;
     private SimpleDraweeView draweeView;
 
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
         tvResult = (TextView) findViewById(R.id.tvResult);
         draweeView = (SimpleDraweeView) findViewById(R.id.my_image_view);
+
+        ISNav.getInstance().init(loader);
     }
 
     private ImageLoader loader = new ImageLoader() {
@@ -50,19 +57,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void Multiselect(View view) {
         tvResult.setText("");
-        ImgSelConfig config = new ImgSelConfig.Builder(this, loader)
+        ISListConfig config = new ISListConfig.Builder()
                 .multiSelect(true)
                 // 是否记住上次选中记录
                 .rememberSelected(false)
                 // 使用沉浸式状态栏
                 .statusBarColor(Color.parseColor("#3F51B5")).build();
 
-        ImgSelActivity.startActivity(this, config, REQUEST_CODE);
+        ISNav.getInstance().toListActivity(this, config, REQUEST_LIST_CODE);
     }
 
     public void Single(View view) {
         tvResult.setText("");
-        ImgSelConfig config = new ImgSelConfig.Builder(this, loader)
+        ISListConfig config = new ISListConfig.Builder()
                 // 是否多选
                 .multiSelect(false)
                 .btnText("Confirm")
@@ -86,20 +93,32 @@ public class MainActivity extends AppCompatActivity {
                 .maxNum(9)
                 .build();
 
-        ImgSelActivity.startActivity(this, config, REQUEST_CODE);
+        ISNav.getInstance().toListActivity(this, config, REQUEST_LIST_CODE);
+    }
+
+    public void Camera(View view) {
+        ISCameraConfig config = new ISCameraConfig.Builder()
+                .needCrop(true)
+                .cropSize(1, 1, 200, 200)
+                .build();
+
+        ISNav.getInstance().toCameraActivity(this, config, REQUEST_CAMERA_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            List<String> pathList = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
+        if (requestCode == REQUEST_LIST_CODE && resultCode == RESULT_OK && data != null) {
+            List<String> pathList = data.getStringArrayListExtra("result");
 
-            // 测试Fresco。可不理会
+            // 测试Fresco
             // draweeView.setImageURI(Uri.parse("file://"+pathList.get(0)));
             for (String path : pathList) {
                 tvResult.append(path + "\n");
             }
+        } else if (requestCode == REQUEST_CAMERA_CODE && resultCode == RESULT_OK && data != null) {
+            String path = data.getStringExtra("result");
+            tvResult.append(path + "\n");
         }
     }
 }

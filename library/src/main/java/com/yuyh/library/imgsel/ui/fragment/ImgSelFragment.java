@@ -1,4 +1,4 @@
-package com.yuyh.library.imgsel;
+package com.yuyh.library.imgsel.ui.fragment;
 
 
 import android.Manifest;
@@ -31,6 +31,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.yuyh.library.imgsel.R;
 import com.yuyh.library.imgsel.adapter.FolderListAdapter;
 import com.yuyh.library.imgsel.adapter.ImageListAdapter;
 import com.yuyh.library.imgsel.adapter.PreviewAdapter;
@@ -40,6 +41,7 @@ import com.yuyh.library.imgsel.common.Callback;
 import com.yuyh.library.imgsel.common.Constant;
 import com.yuyh.library.imgsel.common.OnFolderChangeListener;
 import com.yuyh.library.imgsel.common.OnItemClickListener;
+import com.yuyh.library.imgsel.config.ISListConfig;
 import com.yuyh.library.imgsel.utils.FileUtils;
 import com.yuyh.library.imgsel.utils.LogUtils;
 import com.yuyh.library.imgsel.widget.CustomViewPager;
@@ -57,7 +59,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
     private View rlBottom;
     private CustomViewPager viewPager;
 
-    private ImgSelConfig config;
+    private ISListConfig config;
     private Callback callback;
     private List<Folder> folderList = new ArrayList<>();
     private List<Image> imageList = new ArrayList<>();
@@ -220,7 +222,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                         String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
                         String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
                         long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
-                        Image image = new Image(path, name, dateTime);
+                        Image image = new Image(path, name);
                         if (!image.path.endsWith("gif"))
                             tempImageList.add(image);
                         if (!hasFolderGened) {

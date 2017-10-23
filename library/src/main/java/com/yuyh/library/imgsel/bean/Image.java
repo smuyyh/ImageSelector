@@ -1,24 +1,24 @@
 package com.yuyh.library.imgsel.bean;
 
+import java.io.Serializable;
+
 /**
  * Image bean
  * Created by Yancy on 2015/12/2.
  */
-public class Image {
+public class Image implements Serializable {
 
     public String path;
     public String name;
-    public long time;
 
     public boolean isCamera = false;
 
-    public Image(String path, String name, long time) {
+    public Image(String path, String name) {
         this.path = path;
         this.name = name;
-        this.time = time;
     }
 
-    public Image(){
+    public Image() {
         isCamera = true;
     }
 

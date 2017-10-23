@@ -1,4 +1,4 @@
-package com.yuyh.library.imgsel;
+package com.yuyh.library.imgsel.common;
 
 import android.content.Context;
 import android.widget.ImageView;

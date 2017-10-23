@@ -1,4 +1,4 @@
-package com.yuyh.library.imgsel;
+package com.yuyh.library.imgsel.ui;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,8 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yuyh.library.imgsel.R;
 import com.yuyh.library.imgsel.common.Callback;
 import com.yuyh.library.imgsel.common.Constant;
+import com.yuyh.library.imgsel.config.ISListConfig;
+import com.yuyh.library.imgsel.ui.fragment.ImgSelFragment;
 import com.yuyh.library.imgsel.utils.FileUtils;
 import com.yuyh.library.imgsel.utils.StatusBarCompat;
 
@@ -38,13 +41,13 @@ import java.util.ArrayList;
  * @author yuyh.
  * @date 2016/8/5.
  */
-public class ImgSelActivity extends FragmentActivity implements View.OnClickListener, Callback {
+public class ISListActivity extends FragmentActivity implements View.OnClickListener, Callback {
 
     public static final String INTENT_RESULT = "result";
     private static final int IMAGE_CROP_CODE = 1;
     private static final int STORAGE_REQUEST_CODE = 1;
 
-    private ImgSelConfig config;
+    private ISListConfig config;
 
     private RelativeLayout rlTitleBar;
     private TextView tvTitle;
@@ -56,15 +59,15 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
 
     private ArrayList<String> result = new ArrayList<>();
 
-    public static void startActivity(Activity activity, ImgSelConfig config, int RequestCode) {
-        Intent intent = new Intent(activity, ImgSelActivity.class);
-        Constant.config = config;
+    public static void startForResult(Activity activity, ISListConfig config, int RequestCode) {
+        Intent intent = new Intent(activity, ISListActivity.class);
+        intent.putExtra("config", config);
         activity.startActivityForResult(intent, RequestCode);
     }
 
-    public static void startActivity(Fragment fragment, ImgSelConfig config, int RequestCode) {
-        Intent intent = new Intent(fragment.getActivity(), ImgSelActivity.class);
-        Constant.config = config;
+    public static void startForResult(Fragment fragment, ISListConfig config, int RequestCode) {
+        Intent intent = new Intent(fragment.getActivity(), ISListActivity.class);
+        intent.putExtra("config", config);
         fragment.startActivityForResult(intent, RequestCode);
     }
 
@@ -72,7 +75,8 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_img_sel);
-        config = Constant.config;
+
+        config = (ISListConfig) getIntent().getSerializableExtra("config");
 
         // Android 6.0 checkSelfPermission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)

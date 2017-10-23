@@ -6,7 +6,8 @@ import android.widget.ImageView;
 
 import com.yuyh.easyadapter.abslistview.EasyLVAdapter;
 import com.yuyh.easyadapter.abslistview.EasyLVHolder;
-import com.yuyh.library.imgsel.ImgSelConfig;
+import com.yuyh.library.imgsel.ISNav;
+import com.yuyh.library.imgsel.config.ISListConfig;
 import com.yuyh.library.imgsel.R;
 import com.yuyh.library.imgsel.bean.Folder;
 import com.yuyh.library.imgsel.common.OnFolderChangeListener;
@@ -21,12 +22,12 @@ public class FolderListAdapter extends EasyLVAdapter<Folder> {
 
     private Context context;
     private List<Folder> folderList;
-    private ImgSelConfig config;
+    private ISListConfig config;
 
     private int selected = 0;
     private OnFolderChangeListener listener;
 
-    public FolderListAdapter(Context context, List<Folder> folderList, ImgSelConfig config) {
+    public FolderListAdapter(Context context, List<Folder> folderList, ISListConfig config) {
         super(context, folderList, R.layout.item_img_sel_folder);
         this.context = context;
         this.folderList = folderList;
@@ -40,14 +41,14 @@ public class FolderListAdapter extends EasyLVAdapter<Folder> {
                     .setText(R.id.tvImageNum, "共" + getTotalImageSize() + "张");
             ImageView ivFolder = holder.getView(R.id.ivFolder);
             if (folderList.size() > 0) {
-                config.loader.displayImage(context, folder.cover.path, ivFolder);
+                ISNav.getInstance().displayImage(context, folder.cover.path, ivFolder);
             }
         } else {
             holder.setText(R.id.tvFolderName, folder.name)
                     .setText(R.id.tvImageNum, "共" + folder.images.size() + "张");
             ImageView ivFolder = holder.getView(R.id.ivFolder);
             if (folderList.size() > 0) {
-                config.loader.displayImage(context, folder.cover.path, ivFolder);
+                ISNav.getInstance().displayImage(context, folder.cover.path, ivFolder);
             }
         }
 
@@ -86,7 +87,7 @@ public class FolderListAdapter extends EasyLVAdapter<Folder> {
     public void setSelectIndex(int position) {
         if (selected == position)
             return;
-        if(listener != null)
+        if (listener != null)
             listener.onChange(position, folderList.get(position));
         selected = position;
         notifyDataSetChanged();

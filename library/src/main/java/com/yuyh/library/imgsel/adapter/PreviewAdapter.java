@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.yuyh.library.imgsel.ImgSelConfig;
+import com.yuyh.library.imgsel.ISNav;
+import com.yuyh.library.imgsel.config.ISListConfig;
 import com.yuyh.library.imgsel.R;
 import com.yuyh.library.imgsel.bean.Image;
 import com.yuyh.library.imgsel.common.Constant;
@@ -22,10 +23,10 @@ public class PreviewAdapter extends PagerAdapter {
 
     private Activity activity;
     private List<Image> images;
-    private ImgSelConfig config;
+    private ISListConfig config;
     private OnItemClickListener listener;
 
-    public PreviewAdapter(Activity activity, List<Image> images, ImgSelConfig config) {
+    public PreviewAdapter(Activity activity, List<Image> images, ISListConfig config) {
         this.activity = activity;
         this.images = images;
         this.config = config;
@@ -92,7 +93,7 @@ public class PreviewAdapter extends PagerAdapter {
     }
 
     private void displayImage(ImageView photoView, String path) {
-        config.loader.displayImage(activity, path, photoView);
+        ISNav.getInstance().displayImage(activity, path, photoView);
     }
 
     @Override

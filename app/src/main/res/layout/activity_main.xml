@@ -22,6 +22,12 @@
         android:onClick="Single"
         android:text="Single" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Camera"
+        android:text="Camera" />
+
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/my_image_view"
         android:layout_width="130dp"

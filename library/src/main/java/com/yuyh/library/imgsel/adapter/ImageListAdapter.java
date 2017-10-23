@@ -6,7 +6,8 @@ import android.widget.ImageView;
 
 import com.yuyh.easyadapter.recyclerview.EasyRVAdapter;
 import com.yuyh.easyadapter.recyclerview.EasyRVHolder;
-import com.yuyh.library.imgsel.ImgSelConfig;
+import com.yuyh.library.imgsel.ISNav;
+import com.yuyh.library.imgsel.config.ISListConfig;
 import com.yuyh.library.imgsel.R;
 import com.yuyh.library.imgsel.bean.Image;
 import com.yuyh.library.imgsel.common.Constant;
@@ -23,11 +24,11 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
     private boolean showCamera;
     private boolean mutiSelect;
 
-    private ImgSelConfig config;
+    private ISListConfig config;
     private Context context;
     private OnItemClickListener listener;
 
-    public ImageListAdapter(Context context, List<Image> list, ImgSelConfig config) {
+    public ImageListAdapter(Context context, List<Image> list, ISListConfig config) {
         super(context, list, R.layout.item_img_sel, R.layout.item_img_sel_take_photo);
         this.context = context;
         this.config = config;
@@ -76,7 +77,7 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
         });
 
         final ImageView iv = viewHolder.getView(R.id.ivImage);
-        config.loader.displayImage(context, item.path, iv);
+        ISNav.getInstance().displayImage(context, item.path, iv);
 
         if (mutiSelect) {
             viewHolder.setVisible(R.id.ivPhotoCheaked, true);

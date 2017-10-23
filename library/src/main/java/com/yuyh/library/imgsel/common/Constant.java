@@ -1,6 +1,6 @@
 package com.yuyh.library.imgsel.common;
 
-import com.yuyh.library.imgsel.ImgSelConfig;
+import com.yuyh.library.imgsel.config.ISListConfig;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Constant {
 
-    public static ImgSelConfig config;
+    public static ISListConfig config;
 
     public static ArrayList<String> imageList = new ArrayList<>();
 

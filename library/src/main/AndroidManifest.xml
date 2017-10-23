@@ -7,8 +7,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
         <activity
-            android:name=".ImgSelActivity"
+            android:name=".ui.ISListActivity"
             android:theme="@style/SelTheme" />
+
+        <activity
+            android:name=".ui.ISCameraActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <meta-data
             android:name="APP_ID"

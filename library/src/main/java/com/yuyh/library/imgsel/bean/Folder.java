@@ -1,12 +1,13 @@
 package com.yuyh.library.imgsel.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Folder bean
  * Created by Yancy on 2015/12/2.
  */
-public class Folder {
+public class Folder implements Serializable {
 
     public String name;
     public String path;
@@ -15,11 +16,11 @@ public class Folder {
 
     public boolean isAll = false;
 
-    public Folder(){
+    public Folder() {
 
     }
 
-    public Folder(boolean isAll){
+    public Folder(boolean isAll) {
         this.isAll = isAll;
     }
 
