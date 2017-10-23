@@ -23,8 +23,7 @@ dependencies {
 
 ## 使用
 
-#### 图片选择器
-
+### 初始化
 ```java
 // 自定义图片加载器
 ISNav.getInstance().init(new ImageLoader() {
@@ -33,9 +32,37 @@ ISNav.getInstance().init(new ImageLoader() {
         Glide.with(context).load(path).into(imageView);
     }
 });
+```
+
+### 直接拍照
+
+```java
+ISCameraConfig config = new ISCameraConfig.Builder()
+        .needCrop(true) // 裁剪
+        .cropSize(1, 1, 200, 200)
+        .build();
+
+ISNav.getInstance().toCameraActivity(this, config, REQUEST_CAMERA_CODE);
+```
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == REQUEST_CAMERA_CODE && resultCode == RESULT_OK && data != null) {
+        String path = data.getStringExtra("result"); // 图片地址
+        tvResult.append(path + "\n");
+    }
+}
+```
+
+### 图片选择器
+
+```java
 
 // 自由配置选项
-ImgSelConfig config = new ImgSelConfig.Builder()
+ISListConfig config = new ISListConfig.Builder()
     // 是否多选, 默认true
     .multiSelect(false)
     // 是否记住上次选中记录, 仅当multiSelect为true的时候配置，默认为true
@@ -77,29 +104,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         for (String path : pathList) {
             tvResult.append(path + "\n");
         }
-    }
-}
-```
-
-#### 直接拍照
-
-```java
-ISCameraConfig config = new ISCameraConfig.Builder()
-        .needCrop(true) // 裁剪
-        .cropSize(1, 1, 200, 200)
-        .build();
-
-ISNav.getInstance().toCameraActivity(this, config, REQUEST_CAMERA_CODE);
-```
-
-```java
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-
-    if (requestCode == REQUEST_CAMERA_CODE && resultCode == RESULT_OK && data != null) {
-        String path = data.getStringExtra("result"); // 图片地址
-        tvResult.append(path + "\n");
     }
 }
 ```
