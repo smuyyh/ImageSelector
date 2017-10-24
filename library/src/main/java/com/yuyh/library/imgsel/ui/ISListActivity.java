@@ -205,6 +205,7 @@ public class ISListActivity extends FragmentActivity implements View.OnClickList
         intent.putExtra("outputX", config.outputX);
         intent.putExtra("outputY", config.outputY);
         intent.putExtra("scale", true);
+        intent.putExtra("scaleUpIfNeeded", true);
         intent.putExtra("return-data", false);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
