@@ -224,8 +224,8 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                         if (!hasFolderGened) {
                             File imageFile = new File(path);
                             File folderFile = imageFile.getParentFile();
-                            if (folderFile == null) {
-                                return;
+                            if (folderFile == null || !imageFile.exists() || imageFile.length() < 10) {
+                                continue;
                             }
 
                             Folder parent = null;
