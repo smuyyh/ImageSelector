@@ -100,7 +100,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     // 图片选择结果回调
     if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-        List<String> pathList = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
+        List<String> pathList = data.getStringArrayListExtra("result");
         for (String path : pathList) {
             tvResult.append(path + "\n");
         }
