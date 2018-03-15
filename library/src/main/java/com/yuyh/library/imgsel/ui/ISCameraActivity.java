@@ -69,7 +69,7 @@ public class ISCameraActivity extends AppCompatActivity {
     }
 
     private void camera() {
-
+        cropImageFile = new File(FileUtils.createRootPath(this) + "/" + System.currentTimeMillis() + ".jpg");
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -102,7 +102,7 @@ public class ISCameraActivity extends AppCompatActivity {
     }
 
     private void crop(String imagePath) {
-        cropImageFile = new File(FileUtils.createRootPath(this) + "/" + System.currentTimeMillis() + ".jpg");
+        // cropImageFile = new File(FileUtils.createRootPath(this) + "/" + System.currentTimeMillis() + ".jpg");
 
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(getImageContentUri(new File(imagePath)), "image/*");
