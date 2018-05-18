@@ -26,6 +26,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,6 +109,11 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
         super.onViewCreated(view, savedInstanceState);
         config = ((ISListActivity) getActivity()).getConfig();
         callback = ((ISListActivity) getActivity());
+
+        if (config == null) {
+            Log.e("ImgSelFragment", "config 参数不能为空");
+            return;
+        }
 
         btnAlbumSelected.setText(config.allImagesText);
 
