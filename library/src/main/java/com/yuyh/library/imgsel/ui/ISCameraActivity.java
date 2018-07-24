@@ -86,7 +86,7 @@ public class ISCameraActivity extends AppCompatActivity {
             FileUtils.createFile(tempPhotoFile);
 
             Uri uri = FileProvider.getUriForFile(this,
-                    FileUtils.getApplicationId(this) + ".provider", tempPhotoFile);
+                    FileUtils.getApplicationId(this) + ".image_provider", tempPhotoFile);
 
             List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(cameraIntent, PackageManager.MATCH_DEFAULT_ONLY);
             for (ResolveInfo resolveInfo : resInfoList) {

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -41,7 +43,7 @@ import java.util.ArrayList;
  * @author yuyh.
  * @date 2016/8/5.
  */
-public class ISListActivity extends FragmentActivity implements View.OnClickListener, Callback {
+public class ISListActivity extends AppCompatActivity implements View.OnClickListener, Callback {
 
     public static final String INTENT_RESULT = "result";
     private static final int IMAGE_CROP_CODE = 1;

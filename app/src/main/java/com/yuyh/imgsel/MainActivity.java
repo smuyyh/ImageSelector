@@ -16,6 +16,7 @@ import com.yuyh.library.imgsel.ISNav;
 import com.yuyh.library.imgsel.common.ImageLoader;
 import com.yuyh.library.imgsel.config.ISCameraConfig;
 import com.yuyh.library.imgsel.config.ISListConfig;
+import com.yuyh.library.imgsel.utils.StatusBarCompat;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 // 使用沉浸式状态栏
                 .statusBarColor(Color.parseColor("#3F51B5"))
                 // 返回图标ResId
-                .backResId(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_mtrl_am_alpha)
+                .backResId(R.mipmap.back)
                 .title("Images")
                 .titleColor(Color.WHITE)
                 .titleBgColor(Color.parseColor("#3F51B5"))

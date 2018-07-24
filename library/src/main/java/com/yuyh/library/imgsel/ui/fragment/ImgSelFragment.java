@@ -100,6 +100,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
         btnAlbumSelected.setOnClickListener(this);
         rlBottom = view.findViewById(R.id.rlBottom);
         viewPager = (CustomViewPager) view.findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.addOnPageChangeListener(this);
         return view;
     }
@@ -378,7 +379,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
             FileUtils.createFile(tempFile);
 
             Uri uri = FileProvider.getUriForFile(getActivity(),
-                    FileUtils.getApplicationId(getActivity()) + ".provider", tempFile);
+                    FileUtils.getApplicationId(getActivity()) + ".image_provider", tempFile);
 
             List<ResolveInfo> resInfoList = getActivity().getPackageManager()
                     .queryIntentActivities(cameraIntent, PackageManager.MATCH_DEFAULT_ONLY);
