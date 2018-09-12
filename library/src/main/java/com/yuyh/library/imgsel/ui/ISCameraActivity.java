@@ -47,6 +47,12 @@ public class ISCameraActivity extends AppCompatActivity {
         fragment.startActivityForResult(intent, requestCode);
     }
 
+    public static void startForResult(android.app.Fragment fragment, ISCameraConfig config, int requestCode) {
+        Intent intent = new Intent(fragment.getActivity(), ISCameraActivity.class);
+        intent.putExtra("config", config);
+        fragment.startActivityForResult(intent, requestCode);
+    }
+
     private static final int REQUEST_CAMERA = 5;
     private static final int IMAGE_CROP_CODE = 1;
     private static final int CAMERA_REQUEST_CODE = 2;

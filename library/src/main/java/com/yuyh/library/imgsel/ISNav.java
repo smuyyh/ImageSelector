@@ -54,6 +54,8 @@ public class ISNav {
             ISListActivity.startForResult((Activity) source, config, reqCode);
         } else if (source instanceof Fragment) {
             ISListActivity.startForResult((Fragment) source, config, reqCode);
+        } else if (source instanceof android.app.Fragment) {
+            ISListActivity.startForResult((android.app.Fragment) source, config, reqCode);
         }
     }
 
@@ -62,6 +64,8 @@ public class ISNav {
             ISCameraActivity.startForResult((Activity) source, config, reqCode);
         } else if (source instanceof Fragment) {
             ISCameraActivity.startForResult((Fragment) source, config, reqCode);
+        } else if (source instanceof android.app.Fragment) {
+            ISCameraActivity.startForResult((android.app.Fragment) source, config, reqCode);
         }
     }
 

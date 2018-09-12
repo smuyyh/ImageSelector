@@ -73,6 +73,12 @@ public class ISListActivity extends AppCompatActivity implements View.OnClickLis
         fragment.startActivityForResult(intent, RequestCode);
     }
 
+    public static void startForResult(android.app.Fragment fragment, ISListConfig config, int RequestCode) {
+        Intent intent = new Intent(fragment.getActivity(), ISListActivity.class);
+        intent.putExtra("config", config);
+        fragment.startActivityForResult(intent, RequestCode);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
