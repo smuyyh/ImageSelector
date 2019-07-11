@@ -9,9 +9,12 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="SelTheme" parent="@style/BaseAppTheme">
+    <style name="SelTheme" parent="@style/BaseAppTheme"></style>
 
-
+    <style name="PopupAnimBottom" parent="@android:style/Animation">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowEnterAnimation">@anim/popup_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_bottom_out</item>
     </style>
 
 </resources>

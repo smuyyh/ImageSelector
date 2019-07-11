@@ -24,9 +24,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:27.1.0'
-    compile 'com.android.support:support-v4:27.1.0'
-    compile 'com.android.support:recyclerview-v7:27.1.0'
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:support-v4:27.1.1'
+    compile 'com.android.support:recyclerview-v7:27.1.1'
 
     compile 'com.yuyh.easyadapter:library:1.1.0'
 }

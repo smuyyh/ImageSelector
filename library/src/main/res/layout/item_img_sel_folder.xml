@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#DD000000"
     android:orientation="vertical">
 
 
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/ivFolder"
@@ -31,8 +31,8 @@
                 android:id="@+id/tvFolderName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textColor="@android:color/white"
+                android:textSize="16dp" />
 
 
             <TextView
@@ -40,8 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="16sp" />
+                android:textColor="#CCCCCC"
+                android:textSize="14dp" />
 
         </LinearLayout>
 
@@ -52,9 +52,10 @@
 
             <ImageView
                 android:id="@+id/indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_folder_selected" />
 
         </LinearLayout>
@@ -62,6 +63,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/viewLine"
         android:layout_width="match_parent"
         android:layout_height="0.5dip"
         android:background="#CCCCCC" />

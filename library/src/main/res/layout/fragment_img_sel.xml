@@ -10,12 +10,13 @@
             android:id="@+id/rvImageList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="?android:attr/actionBarSize"/>
+            android:layout_margin="3dp"
+            android:layout_marginBottom="?android:attr/actionBarSize" />
 
         <RelativeLayout
             android:id="@+id/rlBottom"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:background="@color/bottom_bg"
             android:clickable="true">
@@ -26,8 +27,8 @@
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:drawablePadding="5dp"
                 android:drawableRight="@drawable/ic_album"
+                android:drawablePadding="5dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
@@ -35,7 +36,7 @@
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
         </RelativeLayout>
 

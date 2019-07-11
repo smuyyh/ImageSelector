@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -48,6 +49,7 @@ import com.yuyh.library.imgsel.common.OnFolderChangeListener;
 import com.yuyh.library.imgsel.common.OnItemClickListener;
 import com.yuyh.library.imgsel.config.ISListConfig;
 import com.yuyh.library.imgsel.ui.ISListActivity;
+import com.yuyh.library.imgsel.utils.DisplayUtils;
 import com.yuyh.library.imgsel.utils.FileUtils;
 import com.yuyh.library.imgsel.utils.LogUtils;
 import com.yuyh.library.imgsel.widget.CustomViewPager;
@@ -95,18 +97,18 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_img_sel, container, false);
-        rvImageList = (RecyclerView) view.findViewById(R.id.rvImageList);
-        btnAlbumSelected = (Button) view.findViewById(R.id.btnAlbumSelected);
+        rvImageList = view.findViewById(R.id.rvImageList);
+        btnAlbumSelected = view.findViewById(R.id.btnAlbumSelected);
         btnAlbumSelected.setOnClickListener(this);
         rlBottom = view.findViewById(R.id.rlBottom);
-        viewPager = (CustomViewPager) view.findViewById(R.id.viewPager);
+        viewPager = view.findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(1);
         viewPager.addOnPageChangeListener(this);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         config = ((ISListActivity) getActivity()).getConfig();
         callback = ((ISListActivity) getActivity());
@@ -119,7 +121,18 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
         btnAlbumSelected.setText(config.allImagesText);
 
         rvImageList.setLayoutManager(new GridLayoutManager(rvImageList.getContext(), 3));
-        rvImageList.addItemDecoration(new DividerGridItemDecoration(rvImageList.getContext()));
+        rvImageList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            int spacing = DisplayUtils.dip2px(rvImageList.getContext(), 6);
+            int halfSpacing = spacing >> 1;
+
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.left = halfSpacing;
+                outRect.right = halfSpacing;
+                outRect.top = halfSpacing;
+                outRect.bottom = halfSpacing;
+            }
+        });
         if (config.needCamera)
             imageList.add(new Image());
 
@@ -279,7 +292,8 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
 
     private void createPopupFolderList(int width, int height) {
         folderPopupWindow = new ListPopupWindow(getActivity());
-        folderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#aaaaaa")));
+        folderPopupWindow.setAnimationStyle(R.style.PopupAnimBottom);
+        folderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         folderPopupWindow.setAdapter(folderListAdapter);
         folderPopupWindow.setContentWidth(width);
         folderPopupWindow.setWidth(width);

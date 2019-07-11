@@ -2,8 +2,9 @@
 <com.yuyh.library.imgsel.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="#F5F5F5"
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/ivTakePhoto"
@@ -15,8 +16,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/ivTakePhoto"
-        android:text="@string/takephoto"/>
+        android:layout_centerHorizontal="true"
+        android:text="@string/takephoto" />
 
 </com.yuyh.library.imgsel.widget.SquareRelativeLayout>

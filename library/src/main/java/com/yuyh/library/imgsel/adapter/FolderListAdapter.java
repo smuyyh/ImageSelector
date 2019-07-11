@@ -52,6 +52,8 @@ public class FolderListAdapter extends EasyLVAdapter<Folder> {
             }
         }
 
+        holder.setVisible(R.id.viewLine, position != getCount() - 1);
+
         if (selected == position) {
             holder.setVisible(R.id.indicator, true);
         } else {

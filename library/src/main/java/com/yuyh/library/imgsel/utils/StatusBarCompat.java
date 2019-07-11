@@ -31,7 +31,7 @@ public class StatusBarCompat {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content);
+            ViewGroup contentView = activity.findViewById(android.R.id.content);
 
             View statusBarView = contentView.getChildAt(0);
             if (statusBarView != null && statusBarView.getMeasuredHeight() == getStatusBarHeight(activity)) {

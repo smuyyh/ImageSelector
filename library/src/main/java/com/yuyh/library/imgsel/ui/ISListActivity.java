@@ -105,13 +105,13 @@ public class ISListActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initView() {
-        rlTitleBar = (RelativeLayout) findViewById(R.id.rlTitleBar);
-        tvTitle = (TextView) findViewById(R.id.tvTitle);
+        rlTitleBar = findViewById(R.id.rlTitleBar);
+        tvTitle = findViewById(R.id.tvTitle);
 
-        btnConfirm = (Button) findViewById(R.id.btnConfirm);
+        btnConfirm = findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(this);
 
-        ivBack = (ImageView) findViewById(R.id.ivBack);
+        ivBack = findViewById(R.id.ivBack);
         ivBack.setOnClickListener(this);
 
         if (config != null) {
