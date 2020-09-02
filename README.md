@@ -1,8 +1,5 @@
 # ImageSelector
 
-BookReader is being sponsored by the following tool; please help to support us by taking a look and signing up to a free trial
-
-<a href="https://tracking.gitads.io/?repo=BookReader"> <img src="https://images.gitads.io/BookReader" alt="GitAds"/></a>
 
 Android 图片选择器。充分自由定制，极大程度简化使用，支持图库多选/图片预览/单选/照片裁剪/拍照/自定义图片加载方式/自定义色调/沉浸式状态栏
 
