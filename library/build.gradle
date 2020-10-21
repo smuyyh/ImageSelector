@@ -4,13 +4,13 @@ apply plugin: 'com.jfrog.bintray'
 version = "2.0.7" // 版本号
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 29
+    buildToolsVersion "28.0.3"
     resourcePrefix "imgsel"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion 29
         versionCode 207
         versionName "2.0.7"
     }
@@ -20,15 +20,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    compile 'com.android.support:support-v4:27.1.1'
-    compile 'com.android.support:recyclerview-v7:27.1.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api 'androidx.appcompat:appcompat:1.2.0'
+    api 'androidx.legacy:legacy-support-v4:1.0.0'
+    api 'androidx.recyclerview:recyclerview:1.1.0'
 
-    compile 'com.yuyh.easyadapter:library:1.1.0'
+    implementation 'com.yuyh.easyadapter:library:1.1.0'
 }
 
 def siteUrl = 'https://github.com/smuyyh/ImageSelector'

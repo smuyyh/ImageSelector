@@ -7,17 +7,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -25,6 +18,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.yuyh.library.imgsel.R;
 import com.yuyh.library.imgsel.common.Callback;
@@ -206,7 +205,8 @@ public class ISListActivity extends AppCompatActivity implements View.OnClickLis
 
         cropImagePath = file.getAbsolutePath();
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(getImageContentUri(new File(imagePath)), "image/*");
+        Uri originUri = getImageContentUri(new File(imagePath));
+        intent.setDataAndType(originUri, "image/*");
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", config.aspectX);
         intent.putExtra("aspectY", config.aspectY);
@@ -218,6 +218,10 @@ public class ISListActivity extends AppCompatActivity implements View.OnClickLis
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);
+        if (Build.VERSION.SDK_INT >= 24) {
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
         startActivityForResult(intent, IMAGE_CROP_CODE);
     }
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +16,6 @@ import com.yuyh.library.imgsel.ISNav;
 import com.yuyh.library.imgsel.common.ImageLoader;
 import com.yuyh.library.imgsel.config.ISCameraConfig;
 import com.yuyh.library.imgsel.config.ISListConfig;
-import com.yuyh.library.imgsel.utils.StatusBarCompat;
 
 import java.util.List;
 

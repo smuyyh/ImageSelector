@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ImageSelector.iml" filepath="$PROJECT_DIR$/ImageSelector.iml" group="ImageSelector" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="ImageSelector/app" />
-      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" group="ImageSelector/library" />
+      <module fileurl="file://$PROJECT_DIR$/ImageSelector.iml" filepath="$PROJECT_DIR$/ImageSelector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ImageSelector.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ImageSelector.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/ImageSelector.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/ImageSelector.library.iml" />
     </modules>
   </component>
 </project>
