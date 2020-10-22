@@ -10,8 +10,10 @@
             android:id="@+id/rvImageList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="3dp"
-            android:layout_marginBottom="?android:attr/actionBarSize" />
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="?android:attr/actionBarSize"
+            android:overScrollMode="never" />
 
         <RelativeLayout
             android:id="@+id/rlBottom"

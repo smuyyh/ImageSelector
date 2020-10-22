@@ -27,6 +27,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.transition.Fade;
+import android.transition.Scene;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -152,6 +155,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                     showCameraAction();
                 } else {
                     if (config.multiSelect) {
+                        TransitionManager.go(new Scene(viewPager), new Fade().setDuration(200));
                         viewPager.setAdapter((previewAdapter = new PreviewAdapter(getActivity(), imageList, config)));
                         previewAdapter.setListener(new OnItemClickListener() {
                             @Override
@@ -465,6 +469,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
 
     public boolean hidePreview() {
         if (viewPager.getVisibility() == View.VISIBLE) {
+            TransitionManager.go(new Scene(viewPager), new Fade().setDuration(200));
             viewPager.setVisibility(View.GONE);
             callback.onPreviewChanged(0, 0, false);
             imageListAdapter.notifyDataSetChanged();
