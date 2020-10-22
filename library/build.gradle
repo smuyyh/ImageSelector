@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
-version = "2.0.7" // 版本号
+version = "2.1.0" // 版本号
 
 android {
     compileSdkVersion 27
@@ -11,8 +11,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 207
-        versionName "2.0.7"
+        versionCode 210
+        versionName "2.1.0"
     }
     buildTypes {
         release {
