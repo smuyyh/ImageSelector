@@ -3,6 +3,7 @@ package com.yuyh.library.imgsel.utils;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
 
 import java.io.File;
@@ -22,13 +23,21 @@ public class FileUtils {
      */
     public static String createRootPath(Context context) {
         String cacheRootPath = "";
-        if (isSdCardAvailable()) {
-            // /sdcard/Android/data/<application package>/cache
-            cacheRootPath = context.getExternalCacheDir().getPath();
+        if (Build.VERSION.SDK_INT <= 28) {
+            if (isSdCardAvailable()) {
+                cacheRootPath = context.getExternalCacheDir().getPath();
+            } else {
+                cacheRootPath = context.getCacheDir().getPath();
+            }
         } else {
-            // /data/data/<application package>/cache
-            cacheRootPath = context.getCacheDir().getPath();
+            File[] medias = context.getExternalMediaDirs();
+            if (medias != null && medias.length > 0) {
+                cacheRootPath = medias[0].getPath();
+            } else {
+                cacheRootPath = Environment.getExternalStorageDirectory().getPath() + "/Android/media/temp";
+            }
         }
+        createDir(cacheRootPath);
         return cacheRootPath;
     }
 
