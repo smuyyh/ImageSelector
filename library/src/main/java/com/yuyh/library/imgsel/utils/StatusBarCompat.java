@@ -22,12 +22,12 @@ import com.yuyh.library.imgsel.R;
 public class StatusBarCompat {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static View compat(Activity activity, int statusColor) {
+    public static View compat(Activity activity, int statusColor, boolean isDarkStyle) {
         int color = ContextCompat.getColor(activity, R.color.colorPrimary);
         if (color == statusColor) {
-            compatTransStatusBar(activity, Color.TRANSPARENT);
+            compatTransStatusBar(activity, Color.TRANSPARENT, isDarkStyle);
         } else {
-            compatTransStatusBar(activity, statusColor);
+            compatTransStatusBar(activity, statusColor, isDarkStyle);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -53,11 +53,17 @@ public class StatusBarCompat {
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public static void compatTransStatusBar(Activity activity, int color) {
+    public static void compatTransStatusBar(Activity activity, int color, boolean isDarkStyle) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             View decorView = activity.getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            int option;
+            if (isDarkStyle) {
+                option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            } else {
+                option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            }
             decorView.setSystemUiVisibility(option);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // 适配华为EMUI 沉浸式状态栏

@@ -42,6 +42,11 @@ public class ISListConfig implements Serializable {
     public int statusBarColor = -1;
 
     /**
+     * 状态栏字体颜色
+     */
+    public boolean isDark = false;
+
+    /**
      * 返回图标资源
      */
     public int backResId = -1;
@@ -95,6 +100,7 @@ public class ISListConfig implements Serializable {
         this.maxNum = builder.maxNum;
         this.needCamera = builder.needCamera;
         this.statusBarColor = builder.statusBarColor;
+        this.isDark = builder.isDark;
         this.backResId = builder.backResId;
         this.title = builder.title;
         this.titleBgColor = builder.titleBgColor;
@@ -118,6 +124,7 @@ public class ISListConfig implements Serializable {
         private int maxNum = 9;
         private boolean needCamera = true;
         public int statusBarColor = -1;
+        private boolean isDark = true;
         private int backResId = -1;
         private String title;
         private int titleColor;
@@ -180,6 +187,11 @@ public class ISListConfig implements Serializable {
 
         public Builder statusBarColor(int statusBarColor) {
             this.statusBarColor = statusBarColor;
+            return this;
+        }
+
+        public Builder isDarkStatusStyle(boolean isDark) {
+            this.isDark = isDark;
             return this;
         }
 

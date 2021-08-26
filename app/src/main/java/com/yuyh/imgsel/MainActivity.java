@@ -59,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
                 // 是否记住上次选中记录
                 .rememberSelected(false)
                 // 使用沉浸式状态栏
-                .statusBarColor(Color.parseColor("#3F51B5")).build();
+                .statusBarColor(Color.parseColor("#3F51B5"))
+                // 设置状态栏字体风格浅色
+                .isDarkStatusStyle(false)
+                .build();
 
         ISNav.getInstance().toListActivity(this, config, REQUEST_LIST_CODE);
     }
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 .btnTextColor(Color.WHITE)
                 // 使用沉浸式状态栏
                 .statusBarColor(Color.parseColor("#3F51B5"))
+                // 设置状态栏字体风格黑色
+                .isDarkStatusStyle(true)
                 // 返回图标ResId
                 .backResId(R.mipmap.back)
                 .title("Images")
