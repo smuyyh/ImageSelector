@@ -64,7 +64,7 @@ public class ISCameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        StatusBarCompat.compatTransStatusBar(this, 0x33333333);
+        StatusBarCompat.compatTransStatusBar(this, 0x33333333, true);
         super.onCreate(savedInstanceState);
 
         config = (ISCameraConfig) getIntent().getSerializableExtra("config");

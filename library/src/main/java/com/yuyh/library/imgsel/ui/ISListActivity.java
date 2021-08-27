@@ -120,7 +120,7 @@ public class ISListActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             if (config.statusBarColor != -1) {
-                StatusBarCompat.compat(this, config.statusBarColor);
+                StatusBarCompat.compat(this, config.statusBarColor, config.isDark);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                         && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
