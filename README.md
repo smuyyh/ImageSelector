@@ -7,13 +7,26 @@ Android 图片选择器。充分自由定制，极大程度简化使用，支持
 
 ## 依赖
 ```
+buildscript {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        ...
+    }
+}
+```
+
+```
 dependencies {
-    compile 'com.yuyh.imgsel:library:2.1.0'
+    implementation 'com.github.smuyyh:ImageSelector:3.0'
 }
 ```
 
 ## 版本
 
+**V3.0 迁移到jitpack**
 **V2.1.0 适配 android 11 分区存储**
 
 ## 注意事项
