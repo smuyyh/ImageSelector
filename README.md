@@ -27,6 +27,7 @@ dependencies {
 ## 版本
 
 **V3.0 迁移到jitpack**
+
 **V2.1.0 适配 android 11 分区存储**
 
 ## 注意事项
