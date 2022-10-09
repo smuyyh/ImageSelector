@@ -26,7 +26,7 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
 
     private ISListConfig config;
     private Context context;
-    private OnItemClickListener listener;
+    private com.yuyh.library.imgsel.common.OnItemClickListener listener;
 
     public ImageListAdapter(Context context, List<Image> list, ISListConfig config) {
         super(context, list, R.layout.item_img_sel, R.layout.item_img_sel_take_photo);
@@ -107,7 +107,7 @@ public class ImageListAdapter extends EasyRVAdapter<Image> {
         return 0;
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(com.yuyh.library.imgsel.common.OnItemClickListener listener) {
         this.listener = listener;
     }
 }

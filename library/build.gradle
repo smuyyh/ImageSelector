@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-version = "2.1.0" // 版本号
+
+group = 'com.yuyang.library'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 28
+
     resourcePrefix "imgsel"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 210
         versionName "2.1.0"
     }
@@ -24,77 +24,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    compile 'com.android.support:support-v4:27.1.1'
-    compile 'com.android.support:recyclerview-v7:27.1.1'
+    compile 'com.android.support:appcompat-v7:28.0.0'
+    compile 'com.android.support:support-v4:28.0.0'
+    compile 'com.android.support:recyclerview-v7:28.0.0'
 
-    compile 'com.yuyh.easyadapter:library:1.1.0'
-}
-
-def siteUrl = 'https://github.com/smuyyh/ImageSelector'
-def gitUrl = 'https://github.com/smuyyh/ImageSelector.git'
-group = "com.yuyh.imgsel"
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name 'Android Image Selector'
-                url siteUrl
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'smuyyh'
-                        name 'smuyyh'
-                        email 'smuyyh@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
-}
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    tasks.findByPath(":library:javadoc").enabled = false
-    options.encoding = "UTF-8"
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    configurations = ['archives']
-    pkg {
-        repo = "maven" // 发布到Maven库
-        name = "ImageSelector" // 发布到JCenter上的项目名字
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-    }
+    implementation 'com.github.smuyyh:EasyAdapter:1.3.0'
 }
